@@ -118,8 +118,44 @@ public class UserDAOIMPL implements UserDAO{
 
 	@Override
 	public boolean updateUser(User u) {
-		// TODO Auto-generated method stub
-		return false;
+		int id = u.getId();
+		String f_name =  u.getFname();
+		String l_name =  u.getLname();
+		String password1 =  u.getPassword();
+		
+		int accountId =  u.getAccountId();
+		boolean isEmployee =  u.isEmployee();
+		boolean isAdmin =  u.isAdmin();
+		boolean isLoggedIn =  u.isLoggedIn();
+		
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			
+			
+			String sql = "UPDATE users SET"
+			+ "fname = f_name,"
+			+ " lname = l_name,"
+			+ " password = password1,"
+			+ " account_id = accountId,"
+			+ " is_employee = isEmployee,"
+			+ " is_admin = isAdmin,"
+			+ " is_looged_in = isLoggedIn "
+			+ "FROM users"
+			+ "WHERE user_id = id;"; 
+					
+			
+			PreparedStatement stm = conn.prepareStatement(sql);
+			
+			
+			if(!stm.execute()) {
+				return false;
+			}
+		} catch(SQLException ex) {
+			log.warn("Unable to update the user", ex);
+			return false;
+		}
+		
+		return true;
+		
 	}
 
 	@Override
