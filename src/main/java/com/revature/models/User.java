@@ -9,7 +9,7 @@ public class User {
 	private String lname;
 	private String password;
 	
-	private Account account;
+	private int accountId;
 	
 	private boolean employee;
 	private boolean admin;
@@ -48,12 +48,12 @@ public class User {
 		this.password = password;
 	}
 
-	public Account getAccount() {
-		return account;
+	public int getAccountId() {
+		return accountId;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
 	public boolean isEmployee() {
@@ -80,14 +80,14 @@ public class User {
 		this.isLoggedIn = isLoggedIn;
 	}
 
-	public User(int id, String fname, String lname, String password, Account account, boolean employee, boolean admin,
+	public User(int id, String fname, String lname, String password, int accountId, boolean employee, boolean admin,
 			boolean isLoggedIn) {
 		super();
 		this.id = id;
 		this.fname = fname;
 		this.lname = lname;
 		this.password = password;
-		this.account = account;
+		this.accountId = accountId;
 		this.employee = employee;
 		this.admin = admin;
 		this.isLoggedIn = isLoggedIn;
@@ -97,7 +97,7 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((account == null) ? 0 : account.hashCode());
+		result = prime * result + accountId;
 		result = prime * result + (admin ? 1231 : 1237);
 		result = prime * result + (employee ? 1231 : 1237);
 		result = prime * result + ((fname == null) ? 0 : fname.hashCode());
@@ -117,10 +117,7 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (account == null) {
-			if (other.account != null)
-				return false;
-		} else if (!account.equals(other.account))
+		if (accountId != other.accountId)
 			return false;
 		if (admin != other.admin)
 			return false;
@@ -150,9 +147,11 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", fname=" + fname + ", lname=" + lname + ", password=" + password + ", account="
-				+ account + ", employee=" + employee + ", admin=" + admin + ", isLoggedIn=" + isLoggedIn + "]";
+		return "User [id=" + id + ", fname=" + fname + ", lname=" + lname + ", password=" + password + ", accountId="
+				+ accountId + ", employee=" + employee + ", admin=" + admin + ", isLoggedIn=" + isLoggedIn + "]";
 	}
+
+	
 	
 	
 

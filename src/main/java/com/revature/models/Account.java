@@ -11,11 +11,11 @@ public class Account {
 	
 	private boolean isJoint;
 	
-	private static int startingAccountNumber = 1000000;
+	
 	
 	public Account() {
 		super();
-		accountNumber = startingAccountNumber++;
+		
 	}
 	
 	
