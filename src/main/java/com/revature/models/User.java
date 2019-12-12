@@ -11,8 +11,8 @@ public class User {
 	
 	private int accountId;
 	
-	private boolean employee;
-	private boolean admin;
+	private boolean isEmployee;
+	private boolean isAdmin;
 	
 	private boolean isLoggedIn;
 
@@ -57,19 +57,19 @@ public class User {
 	}
 
 	public boolean isEmployee() {
-		return employee;
+		return isEmployee;
 	}
 
 	public void setEmployee(boolean employee) {
-		this.employee = employee;
+		this.isEmployee = employee;
 	}
 
 	public boolean isAdmin() {
-		return admin;
+		return isAdmin;
 	}
 
 	public void setAdmin(boolean admin) {
-		this.admin = admin;
+		this.isAdmin = admin;
 	}
 
 	public boolean isLoggedIn() {
@@ -88,8 +88,8 @@ public class User {
 		this.lname = lname;
 		this.password = password;
 		this.accountId = accountId;
-		this.employee = employee;
-		this.admin = admin;
+		this.isEmployee = employee;
+		this.isAdmin = admin;
 		this.isLoggedIn = isLoggedIn;
 	}
 
@@ -98,8 +98,8 @@ public class User {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + accountId;
-		result = prime * result + (admin ? 1231 : 1237);
-		result = prime * result + (employee ? 1231 : 1237);
+		result = prime * result + (isAdmin ? 1231 : 1237);
+		result = prime * result + (isEmployee ? 1231 : 1237);
 		result = prime * result + ((fname == null) ? 0 : fname.hashCode());
 		result = prime * result + id;
 		result = prime * result + (isLoggedIn ? 1231 : 1237);
@@ -119,9 +119,9 @@ public class User {
 		User other = (User) obj;
 		if (accountId != other.accountId)
 			return false;
-		if (admin != other.admin)
+		if (isAdmin != other.isAdmin)
 			return false;
-		if (employee != other.employee)
+		if (isEmployee != other.isEmployee)
 			return false;
 		if (fname == null) {
 			if (other.fname != null)
@@ -148,7 +148,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", fname=" + fname + ", lname=" + lname + ", password=" + password + ", accountId="
-				+ accountId + ", employee=" + employee + ", admin=" + admin + ", isLoggedIn=" + isLoggedIn + "]";
+				+ accountId + ", employee=" + isEmployee + ", admin=" + isAdmin + ", isLoggedIn=" + isLoggedIn + "]";
 	}
 
 	
