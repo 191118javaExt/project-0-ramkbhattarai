@@ -108,8 +108,8 @@ public class UserDAOIMPL implements UserDAO{
 					if(!stm.execute()) {
 						return false;
 					}
-				} catch(SQLException ex) {
-					log.warn("Unable to retrieve all users", ex);
+				} catch(SQLException e) {
+					log.warn("Unable to retrieve all users", e);
 					return false;
 				}
 				
@@ -163,7 +163,7 @@ public class UserDAOIMPL implements UserDAO{
 		int id = u.getId();
 		try (Connection conn = ConnectionUtil.getConnection()) {
 						
-					String sql = "DELETE users SET"
+					String sql = "DELETE FROM users"
 					+ "WHERE user_id = id;"; 
 					
 					PreparedStatement stm = conn.prepareStatement(sql);

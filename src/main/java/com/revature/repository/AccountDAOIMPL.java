@@ -61,14 +61,63 @@ public class AccountDAOIMPL implements AccountDAO {
 
 	@Override
 	public Account getAccountById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Account account = null;
+				
+				try (Connection con = ConnectionUtil.getConnection()) {
+						
+					String sql = "SELECT account_id FROM accounts WHERE account_id = id;";
+					
+					Statement stmt = con.createStatement();
+					
+					ResultSet rs = stmt.executeQuery(sql);
+					
+					while(rs.next()) {
+						int account_id = rs.getInt("account_id");
+						String accountType = rs.getString("account_type");
+					
+						int accountNumber = rs.getInt("account_number");
+						double balance = rs.getDouble("balance");
+						double interestRate = rs.getDouble("interest_rate");
+						
+						boolean isJoint = rs.getBoolean("is_joint");
+						account = new Account(account_id, accountType, accountNumber, balance, interestRate, isJoint);
+						
+					}
+					
+					rs.close();
+				} catch(SQLException e) {
+					log.warn("Unable to retrieve the account", e);
+				}
+				return account;
 	}
 
 	@Override
 	public boolean addAccount(Account a) {
-		// TODO Auto-generated method stub
-		return false;
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			
+			
+			String sql = "INSERT INTO accounts "
+					+ "(account_type, account_number, balance, interest_rate, is_joint) " +
+					"VALUES (?, ?, ?, ?, ?);";
+			
+			PreparedStatement stm = conn.prepareStatement(sql);
+			stm.setString(1, a.getAccountType());
+			stm.setInt(2, a.getAccountNumber());
+			stm.setDouble(3, a.getBalance());
+		
+			stm.setDouble(4, a.getInterestRate());
+			stm.setBoolean(5, a.isJoint());
+			
+			
+			if(!stm.execute()) {
+				return false;
+			}
+		} catch(SQLException e) {
+			log.warn("Unable to add  account", e);
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -109,8 +158,23 @@ public class AccountDAOIMPL implements AccountDAO {
 
 	@Override
 	public boolean deleteAccount(Account a) {
-		// TODO Auto-generated method stub
-		return false;
+		int id = a.getId();
+		try (Connection conn = ConnectionUtil.getConnection()) {
+						
+					String sql = "DELETE FROM accounts"
+					+ "WHERE account_id = id;"; 
+					
+					PreparedStatement stm = conn.prepareStatement(sql);
+					
+					if(!stm.execute()) {
+						return false;
+					}
+				} catch(SQLException e) {
+					log.warn("Unable to delete the account", e);
+					return false;
+				}
+				
+				return true;
 	}
 
 }
