@@ -160,20 +160,92 @@ public class UserDAOIMPL implements UserDAO{
 
 	@Override
 	public boolean deleteUser(User u) {
-		// TODO Auto-generated method stub
-		return false;
+		int id = u.getId();
+		try (Connection conn = ConnectionUtil.getConnection()) {
+						
+					String sql = "DELETE users SET"
+					+ "WHERE user_id = id;"; 
+					
+					PreparedStatement stm = conn.prepareStatement(sql);
+					
+					if(!stm.execute()) {
+						return false;
+					}
+				} catch(SQLException e) {
+					log.warn("Unable to delete the user", e);
+					return false;
+				}
+				
+				return true;	
 	}
 
 	@Override
-	public Account getUserAccountById(int account_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Account getUserAccount(User u) {
+		Account account = null;
+		int accountId = u.getAccountId();
+		
+		try (Connection con = ConnectionUtil.getConnection()) {
+			
+			String sql = "SELECT account_id FROM accounts WHERE account_id = accountId;";
+			
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				int account_id = rs.getInt("account_id");
+				String accountType = rs.getString("account_type");
+			
+				int accountNumber = rs.getInt("account_number");
+				double balance = rs.getDouble("balance");
+				double interestRate = rs.getDouble("interest_rate");
+				
+				boolean isJoint = rs.getBoolean("is_joint");
+				account = new Account(account_id, accountType, accountNumber, balance, interestRate, isJoint);
+				
+			}
+			
+			rs.close();
+		} catch(SQLException e) {
+			log.warn("Unable to retrieve user's account", e);
+		}
+		
+		return account;
 	}
 
 	@Override
-	public boolean updateUserAccount(Account a) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateUserAccount(User u) {
+//		Account account = getUserAccount(u);
+//		
+//		
+//		
+//		try (Connection conn = ConnectionUtil.getConnection()) {
+//			
+//			
+//			String sql = "UPDATE users SET"
+//			+ "fname = f_name,"
+//			+ " lname = l_name,"
+//			+ " password = password1,"
+//			+ " account_id = accountId,"
+//			+ " is_employee = isEmployee,"
+//			+ " is_admin = isAdmin,"
+//			+ " is_looged_in = isLoggedIn "
+//			+ "FROM users"
+//			+ "WHERE user_id = id;"; 
+//					
+//			
+//			PreparedStatement stm = conn.prepareStatement(sql);
+//			
+//			
+//			if(!stm.execute()) {
+//				return false;
+//			}
+//		} catch(SQLException ex) {
+//			log.warn("Unable to update the user", ex);
+//			return false;
+//		}
+		return true;
+		
 	}
 
 }

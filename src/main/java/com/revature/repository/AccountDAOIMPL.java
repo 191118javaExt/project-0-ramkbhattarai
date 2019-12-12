@@ -26,19 +26,19 @@ public class AccountDAOIMPL implements AccountDAO {
 	}
 
 	@Override
-	public boolean addAccount(Account u) {
+	public boolean addAccount(Account a) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean updateAccount(Account u) {
+	public boolean updateAccount(Account a) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean deleteAccount(Account u) {
+	public boolean deleteAccount(Account a) {
 		// TODO Auto-generated method stub
 		return false;
 	}

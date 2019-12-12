@@ -18,9 +18,9 @@ public interface UserDAO {
 	
 	public abstract boolean deleteUser(User u);
 	
-	public abstract Account getUserAccountById(int account_id);
+	public abstract Account getUserAccount(User u);
 	
-	public abstract boolean updateUserAccount( Account a);
+	public abstract boolean updateUserAccount(User u);
 	
 
 }
