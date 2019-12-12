@@ -17,11 +17,6 @@ public class Account {
 		super();
 		
 	}
-	
-	
-	
-
-
 
 
 	public Account(int id, String accountType, int accountNumber, double balance, double interestRate,
@@ -35,6 +30,66 @@ public class Account {
 		this.isJoint = isJoint;
 	}
 
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+
+	public int getAccountNumber() {
+		return accountNumber;
+	}
+
+
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+
+	public double getBalance() {
+		return balance;
+	}
+
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+
+	public double getInterestRate() {
+		return interestRate;
+	}
+
+
+	public void setInterestRate(double interestRate) {
+		this.interestRate = interestRate;
+	}
+
+
+	public boolean isJoint() {
+		return isJoint;
+	}
+
+
+	public void setJoint(boolean isJoint) {
+		this.isJoint = isJoint;
+	}
 
 
 	@Override

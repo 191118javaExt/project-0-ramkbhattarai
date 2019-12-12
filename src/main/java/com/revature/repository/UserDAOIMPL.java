@@ -215,35 +215,39 @@ public class UserDAOIMPL implements UserDAO{
 
 	@Override
 	public boolean updateUserAccount(User u) {
-//		Account account = getUserAccount(u);
-//		
-//		
-//		
-//		try (Connection conn = ConnectionUtil.getConnection()) {
-//			
-//			
-//			String sql = "UPDATE users SET"
-//			+ "fname = f_name,"
-//			+ " lname = l_name,"
-//			+ " password = password1,"
-//			+ " account_id = accountId,"
-//			+ " is_employee = isEmployee,"
-//			+ " is_admin = isAdmin,"
-//			+ " is_looged_in = isLoggedIn "
-//			+ "FROM users"
-//			+ "WHERE user_id = id;"; 
-//					
-//			
-//			PreparedStatement stm = conn.prepareStatement(sql);
-//			
-//			
-//			if(!stm.execute()) {
-//				return false;
-//			}
-//		} catch(SQLException ex) {
-//			log.warn("Unable to update the user", ex);
-//			return false;
-//		}
+		Account a = getUserAccount(u);
+		
+		int id = a.getId();
+		String type = a.getAccountType();
+		int number = a.getAccountNumber();
+		double balance = a.getBalance();
+		double interest = a.getInterestRate();
+		boolean isJoint = a.isJoint();
+		
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			
+			
+			String sql = "UPDATE accounts SET"
+			+ "account_id = id,"
+			+ " account_type = type,"
+			+ " account_number = number,"
+			+ " balance = account_balance,"
+			+ " interest_rate = interest,"
+			+ " is_joint = isJoint,"
+			+ "FROM accounts"
+			+ "WHERE account_id = id;"; 
+					
+			
+			PreparedStatement stm = conn.prepareStatement(sql);
+			
+			
+			if(!stm.execute()) {
+				return false;
+			}
+		} catch(SQLException ex) {
+			log.warn("Unable to update the user's account", ex);
+			return false;
+		}
 		return true;
 		
 	}
