@@ -13,10 +13,10 @@ public interface AccountDAO {
 	
 	public abstract Account getAccountById(int id);
 	
-	public abstract boolean addAccount(Account u);
+	public abstract boolean addAccount(Account a);
 	
-	public abstract boolean updateAccount(Account u);
+	public abstract boolean updateAccount(Account a);
 	
-	public abstract boolean deleteAccount(Account u);
+	public abstract boolean deleteAccount(Account a);
 	
 }

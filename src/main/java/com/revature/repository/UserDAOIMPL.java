@@ -61,7 +61,7 @@ public class UserDAOIMPL implements UserDAO{
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 				
-			String sql = "SELECT user_id FROM users WHERE user_id = id;";
+			String sql = "SELECT user_id FROM users WHERE user_id =" + id + ";";
 			
 			Statement stmt = con.createStatement();
 			
@@ -132,15 +132,15 @@ public class UserDAOIMPL implements UserDAO{
 			
 			
 			String sql = "UPDATE users SET"
-			+ "fname = f_name,"
-			+ " lname = l_name,"
-			+ " password = password1,"
-			+ " account_id = accountId,"
-			+ " is_employee = isEmployee,"
-			+ " is_admin = isAdmin,"
-			+ " is_looged_in = isLoggedIn "
+			+ "fname =" + f_name +","
+			+ " lname ="+ l_name +","
+			+ " password ="+ password1 +","
+			+ " account_id ="+ accountId +","
+			+ " is_employee ="+ isEmployee +","
+			+ " is_admin ="+ isAdmin +","
+			+ " is_looged_in ="+ isLoggedIn +","
 			+ "FROM users"
-			+ "WHERE user_id = id;"; 
+			+ "WHERE user_id =" + id+";"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
@@ -164,7 +164,7 @@ public class UserDAOIMPL implements UserDAO{
 		try (Connection conn = ConnectionUtil.getConnection()) {
 						
 					String sql = "DELETE FROM users"
-					+ "WHERE user_id = id;"; 
+					+ "WHERE user_id ="+ id+ ";"; 
 					
 					PreparedStatement stm = conn.prepareStatement(sql);
 					
@@ -186,7 +186,7 @@ public class UserDAOIMPL implements UserDAO{
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 			
-			String sql = "SELECT account_id FROM accounts WHERE account_id = accountId;";
+			String sql = "SELECT account_id FROM accounts WHERE account_id =" +accountId+ ";";
 			
 			Statement stmt = con.createStatement();
 			
@@ -228,14 +228,14 @@ public class UserDAOIMPL implements UserDAO{
 			
 			
 			String sql = "UPDATE accounts SET"
-			+ "account_id = id,"
-			+ " account_type = type,"
-			+ " account_number = number,"
-			+ " balance = account_balance,"
-			+ " interest_rate = interest,"
-			+ " is_joint = isJoint,"
+			+ "account_id =" +id+","
+			+ " account_type ="+ type+","
+			+ " account_number ="+ number+","
+			+ " balance =" +balance+","
+			+ " interest_rate ="+ interest+","
+			+ " is_joint ="+ isJoint+","
 			+ "FROM accounts"
-			+ "WHERE account_id = id;"; 
+			+ "WHERE account_id ="+ id+";"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
@@ -244,8 +244,8 @@ public class UserDAOIMPL implements UserDAO{
 			if(!stm.execute()) {
 				return false;
 			}
-		} catch(SQLException ex) {
-			log.warn("Unable to update the user's account", ex);
+		} catch(SQLException e) {
+			log.warn("Unable to update the user's account", e);
 			return false;
 		}
 		return true;

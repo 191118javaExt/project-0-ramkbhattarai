@@ -65,7 +65,7 @@ public class AccountDAOIMPL implements AccountDAO {
 				
 				try (Connection con = ConnectionUtil.getConnection()) {
 						
-					String sql = "SELECT account_id FROM accounts WHERE account_id = id;";
+					String sql = "SELECT account_id FROM accounts WHERE account_id ="+ id+";";
 					
 					Statement stmt = con.createStatement();
 					
@@ -133,14 +133,14 @@ public class AccountDAOIMPL implements AccountDAO {
 			
 			
 			String sql = "UPDATE accounts SET"
-			+ "account_id = id,"
-			+ " account_type = type,"
-			+ " account_number = number,"
-			+ " balance = account_balance,"
-			+ " interest_rate = interest,"
-			+ " is_joint = isJoint,"
+			+ "account_id ="+ id+","
+			+ " account_type ="+ type+","
+			+ " account_number ="+ number+","
+			+ " balance ="+ balance+","
+			+ " interest_rate ="+ interest+","
+			+ " is_joint ="+ isJoint+","
 			+ "FROM accounts"
-			+ "WHERE account_id = id;"; 
+			+ "WHERE account_id ="+ id+";"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
@@ -162,7 +162,7 @@ public class AccountDAOIMPL implements AccountDAO {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 						
 					String sql = "DELETE FROM accounts"
-					+ "WHERE account_id = id;"; 
+					+ "WHERE account_id ="+ id+";"; 
 					
 					PreparedStatement stm = conn.prepareStatement(sql);
 					
