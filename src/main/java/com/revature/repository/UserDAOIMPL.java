@@ -267,4 +267,40 @@ public class UserDAOIMPL implements UserDAO{
 		
 	}
 
+	@Override
+	public User getUserByFnameAndPassword(String name,String pass) {
+		User user = null;
+		
+		try (Connection con = ConnectionUtil.getConnection()) {
+				
+			String sql = "SELECT * FROM public.users WHERE fname = ? AND password = ?;";
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			
+			stmt.setString(1, name);
+			stmt.setString(2, pass);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				int user_id = rs.getInt("user_id");
+				String fname = rs.getString("fname");
+				String lname = rs.getString("lname");
+				String password = rs.getString("password");
+				int account_id = rs.getInt("account_id");
+				boolean isEmployee = rs.getBoolean("is_employee");
+				boolean isAdmin = rs.getBoolean("is_admin");
+				boolean isLoggedIn = rs.getBoolean("is_logged_in");
+				user = new User(user_id, fname, lname, password, account_id, isEmployee,isAdmin,isLoggedIn);
+				
+			}
+			
+			rs.close();
+		} catch(SQLException e) {
+			log.warn("Unable to retrieve the user by using first name and password", e);
+		}
+		//System.out.println(user);
+		return user;
+	}
+
 }

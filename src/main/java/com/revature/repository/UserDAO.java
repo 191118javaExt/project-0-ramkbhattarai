@@ -24,4 +24,6 @@ public interface UserDAO {
 	public abstract boolean updateUserAccount(User u);
 	
 	public abstract Set<String> getAllUsersPassword();
+	
+	public abstract User getUserByFnameAndPassword(String fname, String password);
 }

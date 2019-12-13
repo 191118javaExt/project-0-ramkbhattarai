@@ -43,4 +43,8 @@ public class UserService {
 		public Set<String> getAllUsersPassword(){
 			return userDAO.getAllUsersPassword();
 		}
+		
+		public User getUserByFnameAndPassword(String name,String pass) {
+			return userDAO.getUserByFnameAndPassword(name, pass);
+		}
 }

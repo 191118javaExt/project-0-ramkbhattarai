@@ -1,6 +1,6 @@
 package com.revature;
 
-import java.util.List;
+
 import java.util.Scanner;
 
 import com.revature.models.Account;
@@ -19,8 +19,8 @@ public class Driver {
 				//us.addUser(u);
 		
 		private static Scanner scan = new Scanner(System.in);
-		private static User user;
-		private Account account;
+		//private static User user;
+		//private Account account;
 		
 		public static void start() {
 	
@@ -32,18 +32,28 @@ public class Driver {
 
 		private static void checkUser() {
 			boolean check = true;
-			
+			User u = null;
 			while(check) {	 
 				giveOptions(); // here we will give options to the user
-				int input = scan.nextInt(); // take the choise of user
+				int input = 0;
+				
+				try {
+					String in = scan.nextLine(); // take the choise of user
+					
+					 input = Integer.parseInt(in.split(" ")[0]);
+					
+				}catch(NumberFormatException e) {
+					e.printStackTrace();
+				}
+				
 				switch(input) {
 				case 1:
-					user = createUser();
-					us.addUser(user);
+					u = createUser();
+					us.addUser(u);
 					break;
 				case 2:
 					if(checkUserInDB()) {
-						logIn(user);
+						logIn(u);
 					}
 					check = false;
 					break;
@@ -62,30 +72,26 @@ public class Driver {
 		}
 
 		private static boolean checkUserInDB() {
+			String fname;
+			String password;
+			boolean flag = false;
 			do {
-				System.out.println();
 				System.out.println("Enter your first name: ");
-				String fname = scan.nextLine();
-				//scan.next();
+				 fname = scan.nextLine();
+				//scan.nextLine();
 				System.out.println("Enter your password: ");
-				String password = scan.nextLine();
-				//scan.next();
-		
+				 password = scan.nextLine();
 				System.out.println("Checking user in DataBase");
-				if(true/* DataBase.exists(fname)*/) {
-					if(true/*DataBase.get(fname).getPassword().equals(password)*/) {
-						return true;
-					}else {
-						System.out.println("User Name and Password doesn't match. Please try again.");
-						//return false;
-					}
+				if(us.getUserByFnameAndPassword(fname, password) != null) {
+					
+					flag = true;
 					
 				}else {
 					System.out.println("No such user exists. Please try again");
-					//return false;
+					
 				}
-			}while(false/*(Database.exists(fname) && DataBase.get(fname).getPassword().equals(password))*/);
-			return true;
+			}while(us.getUserByFnameAndPassword(fname, password) == null);
+			return flag;
 		}
 
 		private static void logIn(User user) {
@@ -95,7 +101,14 @@ public class Driver {
 			System.out.println("Welcome" + user + "Happy to see you around");
 			System.out.println("Choose your option: ");
 			printTransactionOption();
-			int choice = scan.nextInt();
+			int choice = 0;
+			String ch = scan.nextLine();
+			try {
+				
+				 choice = Integer.parseInt(ch.split(" ")[0]);
+			}catch(NumberFormatException e) {
+				e.printStackTrace();
+			}
 			//scan.next();
 			switch(choice) {
 			case 1:
@@ -130,8 +143,10 @@ public class Driver {
 
 		private static User createUser() {
 			System.out.println("Enter your first name: ");
+//			scan.nextLine();
 			String fname = scan.nextLine();
-			scan.nextLine();
+			//scan.nextLine();
+			//System.out.println();
 			System.out.println("Enter your last name: ");
 			String lname = scan.nextLine();
 			//scan.nextLine();
@@ -166,8 +181,14 @@ public class Driver {
 			String accountType = scan.nextLine();
 			//scan.nextLine();
 			System.out.println("Enter your Pin Number");
-			int pin = scan.nextInt();
-			scan.nextLine();
+			String p = scan.nextLine();
+			int pin = 0;
+			try {
+				pin = Integer.parseInt(p.split(" ")[0]);
+			}catch(NumberFormatException e) {
+				e.printStackTrace();
+			}
+			//scan.nextLine();
 			System.out.println("Will it be a joint Account?");
 			System.out.println("Enter \'Yes\' for yes and \'No\' for no ");
 			String check = scan.nextLine();
