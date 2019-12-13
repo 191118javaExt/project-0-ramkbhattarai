@@ -38,9 +38,9 @@ public class AccountDAOIMPL implements AccountDAO {
 						int accountNumber = rs.getInt("account_number");
 						double balance = rs.getDouble("balance");
 						double interestRate = rs.getDouble("interest_rate");
-						
+						int pin = rs.getInt("pin_number");
 						boolean isJoint = rs.getBoolean("is_joint");
-					Account	account = new Account(account_id, accountType, accountNumber, balance, interestRate, isJoint);
+					Account	account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint);
 						accountList.add(account);
 					}
 					
@@ -78,9 +78,9 @@ public class AccountDAOIMPL implements AccountDAO {
 						int accountNumber = rs.getInt("account_number");
 						double balance = rs.getDouble("balance");
 						double interestRate = rs.getDouble("interest_rate");
-						
+						int pin = rs.getInt("pin_number");
 						boolean isJoint = rs.getBoolean("is_joint");
-						account = new Account(account_id, accountType, accountNumber, balance, interestRate, isJoint);
+						account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint);
 						
 					}
 					
@@ -98,7 +98,7 @@ public class AccountDAOIMPL implements AccountDAO {
 			
 			String sql = "INSERT INTO accounts "
 					+ "(account_type, account_number, balance, interest_rate, is_joint) " +
-					"VALUES (?, ?, ?, ?, ?);";
+					"VALUES (?, ?, ?, ?, ?,?);";
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, a.getAccountType());
@@ -107,7 +107,7 @@ public class AccountDAOIMPL implements AccountDAO {
 		
 			stm.setDouble(4, a.getInterestRate());
 			stm.setBoolean(5, a.isJoint());
-			
+			stm.setInt(6, a.getPinNumber());
 			
 			if(!stm.execute()) {
 				return false;
@@ -128,6 +128,7 @@ public class AccountDAOIMPL implements AccountDAO {
 		int number = a.getAccountNumber();
 		double balance = a.getBalance();
 		double interest = a.getInterestRate();
+		int pin = a.getPinNumber();
 		boolean isJoint = a.isJoint();
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
@@ -138,6 +139,7 @@ public class AccountDAOIMPL implements AccountDAO {
 			+ " account_number ="+ number+","
 			+ " balance ="+ balance+","
 			+ " interest_rate ="+ interest+","
+			+ "pin_number ="+ pin+","
 			+ " is_joint ="+ isJoint+","
 			+ "FROM accounts"
 			+ "WHERE account_id ="+ id+";"; 
@@ -175,6 +177,38 @@ public class AccountDAOIMPL implements AccountDAO {
 				}
 				
 				return true;
+	}
+
+	@Override
+	public Account getAccountIdBYPinNumber(int pinNumber) {
+		Account account = null;
+		
+		try (Connection con = ConnectionUtil.getConnection()) {
+				
+			String sql = "SELECT account_id FROM accounts WHERE pin_number ="+ pinNumber+";";
+			
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				int account_id = rs.getInt("account_id");
+				String accountType = rs.getString("account_type");
+			
+				int accountNumber = rs.getInt("account_number");
+				double balance = rs.getDouble("balance");
+				double interestRate = rs.getDouble("interest_rate");
+				int pin = rs.getInt("pin_number");
+				boolean isJoint = rs.getBoolean("is_joint");
+				account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint);
+				
+			}
+			
+			rs.close();
+		} catch(SQLException e) {
+			log.warn("Unable to retrieve the account", e);
+		}
+		return account;
 	}
 
 }

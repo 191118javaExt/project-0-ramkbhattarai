@@ -11,8 +11,8 @@ import com.revature.services.UserService;
 
 
 public class Driver {
-		UserService us = new UserService();
-		AccountServices as = new AccountServices();
+	private static UserService us = new UserService();
+	private static AccountServices as = new AccountServices();
 				//Account a = new Account(0,"check",11111,100453.0,10.0,true);
 				//User u = new User(0,"Shiva", "Bhattarai","RamKB",2,true, true,true);
 				//as.addAccount(a);
@@ -23,8 +23,7 @@ public class Driver {
 		private Account account;
 		
 		public static void start() {
-		
-			//user = new User();
+	
 			checkUser();
 			
 		}
@@ -40,7 +39,7 @@ public class Driver {
 				switch(input) {
 				case 1:
 					user = createUser();
-					//Bank.addUser(user);
+					us.addUser(user);
 					break;
 				case 2:
 					if(checkUserInDB()) {
@@ -67,10 +66,10 @@ public class Driver {
 				System.out.println();
 				System.out.println("Enter your first name: ");
 				String fname = scan.nextLine();
-				scan.next();
+				//scan.next();
 				System.out.println("Enter your password: ");
 				String password = scan.nextLine();
-				scan.next();
+				//scan.next();
 		
 				System.out.println("Checking user in DataBase");
 				if(true/* DataBase.exists(fname)*/) {
@@ -130,41 +129,66 @@ public class Driver {
 		}
 
 		private static User createUser() {
-			System.out.println();
 			System.out.println("Enter your first name: ");
 			String fname = scan.nextLine();
-			scan.next();
+			//scan.nextLine();
 			System.out.println("Enter your last name: ");
 			String lname = scan.nextLine();
-			scan.next();
+			//scan.nextLine();
 			String password = conformPassword();
 			System.out.println("Enter \"Yes\" if you are employee of the bank: ");
 			String employee1 = scan.nextLine();
-			scan.next();
+			//scan.nextLine();
 			boolean employee = false;
 			if(employee1.equalsIgnoreCase("yes")) {
 				employee = true;
 			}
 			System.out.println("Enter \"Yes\" if you are admin of the bank: ");
 			String admin1 = scan.nextLine();
-			scan.next();
+			//scan.nextLine();
 			boolean admin = false;
 			if(admin1.equalsIgnoreCase("yes")) {
 				admin = true;
 			}
-			return new User(0, fname, lname,  password,1234, employee, admin, false);
+			System.out.println("Now Let's Create your account.");
+			Account account = createAccount();
+			int pin = account.getPinNumber();
+			as.addAccount(account);
+			Account acc = as.getAccountBYPinNumber(pin);
+			return new User(0, fname, lname,  password,acc.getId(), employee, admin, false);
 		}
+
+
+		 private static Account createAccount() {
+			System.out.println();
+			System.out.println("Which type of account you want to create?");
+			System.out.println("Enter \"Saving\" for saving and \"Checking\" for checking");
+			String accountType = scan.nextLine();
+			System.out.println("Enter your Pin Number");
+			int pin = scan.nextInt();
+			scan.nextLine();
+			System.out.println("Will it be a joint Account?");
+			System.out.println("Enter \'Yes\' for yes and \'No\' for no ");
+			String check = scan.nextLine();
+			boolean isJoint = false;
+			if(check.equalsIgnoreCase("Yes")) {
+				isJoint = true;
+			}
+			return new Account(0, accountType,0,0,0,pin,isJoint);
+		}
+
+
 
 		private static String conformPassword() {
 			String password;
 			do {
 				 password = checkPassword();
 				
-				if(true/*Database.exists(password)*/) {
-					return password;
+				if(us.getAllUsersPassword().contains(password)) {
+					System.out.println("This password is already taken, Please try again");
 				}
-			}while(false/*!Database.exists(password)*/);
-			return "";
+			}while(us.getAllUsersPassword().contains(password));
+			return password;
 		}
 
 		private static String checkPassword() {
@@ -173,21 +197,25 @@ public class Driver {
 			do {
 				System.out.println("Enter your password: ");
 				 password1 = scan.nextLine();
-				 scan.next();
+				 //scan.next();
 				System.out.println("Re-Enter your password: ");
 				 password2 = scan.nextLine();
-				 scan.next();
-			}
-			while(!password1.equals(password2));	
+				 //scan.next();
+				 
+				 if(!password1.equals(password2)) {
+					 System.out.println("Password doesn't match. Please Try Again");
+				 }
+			}while(!password1.equals(password2));
+				
 			return  password1;
 		}
 
 		private static void giveOptions() {
 			System.out.println();
 			System.out.println("Options: ");
-			System.out.println("Enter 1 to create account");
-			System.out.println("Enter 2 to log in if you already have account");
-			System.out.println("Enter 3 to exit");
+			System.out.println("If you are New User, Please Enter 1");
+			System.out.println("If you are Existing User, Please Enter 2");
+			System.out.println("If you want to exit, Please Enter 3");
 			System.out.println();
 			
 		}

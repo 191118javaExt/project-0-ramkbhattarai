@@ -19,4 +19,6 @@ public interface AccountDAO {
 	
 	public abstract boolean deleteAccount(Account a);
 	
+	public abstract Account getAccountIdBYPinNumber(int pinNumber);
+	
 }

@@ -36,5 +36,8 @@ public class AccountServices {
 	public  boolean deleteAccount(Account a) {
 		return accountDAO.deleteAccount(a);
 	}
-
+	
+	public  Account getAccountBYPinNumber(int pin) {
+		return accountDAO.getAccountIdBYPinNumber(pin);
+	}
 }

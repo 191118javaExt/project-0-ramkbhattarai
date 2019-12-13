@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
@@ -52,6 +54,17 @@ public class UserDAOIMPL implements UserDAO{
 
 		
 		return userList;
+	}
+	
+	@Override
+	public Set<String> getAllUsersPassword(){
+		Set<String> passwords = new TreeSet<>();
+		List<User> userList = getAllUsers();
+		for(User u : userList) {
+			String password = u.getPassword();
+			passwords.add(password);
+		}
+		return passwords;
 	}
 
 	@Override
@@ -199,9 +212,9 @@ public class UserDAOIMPL implements UserDAO{
 				int accountNumber = rs.getInt("account_number");
 				double balance = rs.getDouble("balance");
 				double interestRate = rs.getDouble("interest_rate");
-				
+				int pin = rs.getInt("pin_number");
 				boolean isJoint = rs.getBoolean("is_joint");
-				account = new Account(account_id, accountType, accountNumber, balance, interestRate, isJoint);
+				account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint);
 				
 			}
 			

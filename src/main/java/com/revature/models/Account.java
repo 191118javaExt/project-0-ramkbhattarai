@@ -8,7 +8,7 @@ public class Account {
 	private int accountNumber;
 	private double balance;
 	private double interestRate;
-	
+	private int pinNumber;
 	private boolean isJoint;
 	
 	
@@ -20,13 +20,14 @@ public class Account {
 
 
 	public Account(int id, String accountType, int accountNumber, double balance, double interestRate,
-			boolean isJoint) {
+			int pinNumber, boolean isJoint) {
 		super();
 		this.id = id;
 		this.accountType = accountType;
 		this.accountNumber = accountNumber;
 		this.balance = balance;
 		this.interestRate = interestRate;
+		this.pinNumber = pinNumber;
 		this.isJoint = isJoint;
 	}
 
@@ -92,6 +93,8 @@ public class Account {
 	}
 
 
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -105,8 +108,10 @@ public class Account {
 		temp = Double.doubleToLongBits(interestRate);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + (isJoint ? 1231 : 1237);
+		result = prime * result + pinNumber;
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -132,13 +137,26 @@ public class Account {
 			return false;
 		if (isJoint != other.isJoint)
 			return false;
+		if (pinNumber != other.pinNumber)
+			return false;
 		return true;
 	}
-	
+
+
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", accountType=" + accountType + ", accountNumber=" + accountNumber + ", balance="
-				+ balance + ", interestRate=" + interestRate + ", isJoint=" + isJoint + "]";
+				+ balance + ", interestRate=" + interestRate +", pinNumber="+pinNumber +", isJoint=" + isJoint + "]";
+	}
+
+
+	public int getPinNumber() {
+		return pinNumber;
+	}
+
+
+	public void setPinNumber(int pinNumber) {
+		this.pinNumber = pinNumber;
 	}
 
 }

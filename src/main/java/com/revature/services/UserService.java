@@ -1,6 +1,8 @@
 package com.revature.services;
 
 import java.util.List;
+import java.util.Set;
+
 
 import com.revature.models.Account;
 import com.revature.models.User;
@@ -36,5 +38,9 @@ public class UserService {
 		
 		public  boolean updateUserAccount(User u) {
 			return userDAO.updateUserAccount(u);
+		}
+		
+		public Set<String> getAllUsersPassword(){
+			return userDAO.getAllUsersPassword();
 		}
 }
