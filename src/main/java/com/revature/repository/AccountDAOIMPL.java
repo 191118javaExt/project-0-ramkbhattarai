@@ -97,7 +97,7 @@ public class AccountDAOIMPL implements AccountDAO {
 			
 			
 			String sql = "INSERT INTO accounts "
-					+ "(account_type, account_number, balance, interest_rate, is_joint) " +
+					+ "(account_type, account_number, balance, interest_rate, is_joint,pin_number) " +
 					"VALUES (?, ?, ?, ?, ?,?);";
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
@@ -185,7 +185,7 @@ public class AccountDAOIMPL implements AccountDAO {
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 				
-			String sql = "SELECT account_id FROM accounts WHERE pin_number ="+ pinNumber+";";
+			String sql = "SELECT * FROM accounts WHERE pin_number ="+ pinNumber+";";
 			
 			Statement stmt = con.createStatement();
 			
@@ -206,7 +206,7 @@ public class AccountDAOIMPL implements AccountDAO {
 			
 			rs.close();
 		} catch(SQLException e) {
-			log.warn("Unable to retrieve the account", e);
+			log.warn("Unable to retrieve the account by Pin Number", e);
 		}
 		return account;
 	}

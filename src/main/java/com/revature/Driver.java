@@ -131,7 +131,7 @@ public class Driver {
 		private static User createUser() {
 			System.out.println("Enter your first name: ");
 			String fname = scan.nextLine();
-			//scan.nextLine();
+			scan.nextLine();
 			System.out.println("Enter your last name: ");
 			String lname = scan.nextLine();
 			//scan.nextLine();
@@ -164,12 +164,14 @@ public class Driver {
 			System.out.println("Which type of account you want to create?");
 			System.out.println("Enter \"Saving\" for saving and \"Checking\" for checking");
 			String accountType = scan.nextLine();
+			//scan.nextLine();
 			System.out.println("Enter your Pin Number");
 			int pin = scan.nextInt();
 			scan.nextLine();
 			System.out.println("Will it be a joint Account?");
 			System.out.println("Enter \'Yes\' for yes and \'No\' for no ");
 			String check = scan.nextLine();
+			//scan.nextLine();
 			boolean isJoint = false;
 			if(check.equalsIgnoreCase("Yes")) {
 				isJoint = true;
@@ -197,10 +199,10 @@ public class Driver {
 			do {
 				System.out.println("Enter your password: ");
 				 password1 = scan.nextLine();
-				 //scan.next();
+				 //scan.nextLine();
 				System.out.println("Re-Enter your password: ");
 				 password2 = scan.nextLine();
-				 //scan.next();
+				 //scan.nextLine();
 				 
 				 if(!password1.equals(password2)) {
 					 System.out.println("Password doesn't match. Please Try Again");

@@ -46,3 +46,46 @@ org.postgresql.util.PSQLException: ERROR: insert or update on table "users" viol
 	at com.revature.repository.UserDAOIMPL.addUser(UserDAOIMPL.java:108)
 	at com.revature.services.UserService.addUser(UserService.java:22)
 	at com.revature.Driver.main(Driver.java:19)
+2019-12-13 07:40:29 WARN  UserDAOIMPL:116 - Unable to add  account
+org.postgresql.util.PSQLException: ERROR: INSERT has more expressions than target columns
+  Position: 114
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2505)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2241)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:447)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:368)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:158)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:147)
+	at com.revature.repository.AccountDAOIMPL.addAccount(AccountDAOIMPL.java:112)
+	at com.revature.services.AccountServices.addAccount(AccountServices.java:29)
+	at com.revature.Driver.createUser(Driver.java:156)
+	at com.revature.Driver.checkUser(Driver.java:41)
+	at com.revature.Driver.start(Driver.java:27)
+	at com.revature.App.main(App.java:9)
+2019-12-13 07:45:53 WARN  UserDAOIMPL:116 - Unable to add  account
+org.postgresql.util.PSQLException: ERROR: column "pin_number" is of type integer but expression is of type boolean
+  Hint: You will need to rewrite or cast the expression.
+  Position: 123
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2505)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2241)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:447)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:368)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:158)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:147)
+	at com.revature.repository.AccountDAOIMPL.addAccount(AccountDAOIMPL.java:112)
+	at com.revature.services.AccountServices.addAccount(AccountServices.java:29)
+	at com.revature.Driver.createUser(Driver.java:156)
+	at com.revature.Driver.checkUser(Driver.java:41)
+	at com.revature.Driver.start(Driver.java:27)
+	at com.revature.App.main(App.java:9)
+2019-12-13 07:47:41 WARN  UserDAOIMPL:209 - Unable to retrieve the account
+org.postgresql.util.PSQLException: The column name account_type was not found in this ResultSet.
+	at org.postgresql.jdbc.PgResultSet.findColumn(PgResultSet.java:2607)
+	at org.postgresql.jdbc.PgResultSet.getString(PgResultSet.java:2480)
+	at com.revature.repository.AccountDAOIMPL.getAccountIdBYPinNumber(AccountDAOIMPL.java:196)
+	at com.revature.services.AccountServices.getAccountBYPinNumber(AccountServices.java:41)
+	at com.revature.Driver.createUser(Driver.java:157)
+	at com.revature.Driver.checkUser(Driver.java:41)
+	at com.revature.Driver.start(Driver.java:27)
+	at com.revature.App.main(App.java:9)
