@@ -33,3 +33,16 @@ org.postgresql.util.PSQLException: ERROR: column "is_looged_in" of relation "use
 	at com.revature.repository.UserDAOIMPL.addUser(UserDAOIMPL.java:108)
 	at com.revature.services.UserService.addUser(UserService.java:22)
 	at com.revature.Driver.main(Driver.java:19)
+2019-12-12 20:05:37 WARN  UserDAOIMPL:112 - Unable to add user
+org.postgresql.util.PSQLException: ERROR: insert or update on table "users" violates foreign key constraint "users_account_id_fkey"
+  Detail: Key (account_id)=(2) is not present in table "accounts".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2505)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2241)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:447)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:368)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:158)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:147)
+	at com.revature.repository.UserDAOIMPL.addUser(UserDAOIMPL.java:108)
+	at com.revature.services.UserService.addUser(UserService.java:22)
+	at com.revature.Driver.main(Driver.java:19)
