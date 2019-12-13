@@ -65,7 +65,7 @@ public class AccountDAOIMPL implements AccountDAO {
 				
 				try (Connection con = ConnectionUtil.getConnection()) {
 						
-					String sql = "SELECT account_id FROM accounts WHERE account_id ="+ id+";";
+					String sql = "SELECT * FROM accounts WHERE account_id ="+ id+";";
 					
 					Statement stmt = con.createStatement();
 					
@@ -139,8 +139,8 @@ public class AccountDAOIMPL implements AccountDAO {
 			+ " account_number ="+ number+","
 			+ " balance ="+ balance+","
 			+ " interest_rate ="+ interest+","
-			+ "pin_number ="+ pin+","
 			+ " is_joint ="+ isJoint+","
+			+ "pin_number ="+ pin+","
 			+ "FROM accounts"
 			+ "WHERE account_id ="+ id+";"; 
 					

@@ -74,7 +74,7 @@ public class UserDAOIMPL implements UserDAO{
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 				
-			String sql = "SELECT user_id FROM users WHERE user_id =" + id + ";";
+			String sql = "SELECT * FROM users WHERE user_id =" + id + ";";
 			
 			Statement stmt = con.createStatement();
 			
@@ -199,7 +199,7 @@ public class UserDAOIMPL implements UserDAO{
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 			
-			String sql = "SELECT account_id FROM accounts WHERE account_id =" +accountId+ ";";
+			String sql = "SELECT * FROM accounts WHERE account_id =" +accountId+ ";";
 			
 			Statement stmt = con.createStatement();
 			
@@ -236,6 +236,7 @@ public class UserDAOIMPL implements UserDAO{
 		double balance = a.getBalance();
 		double interest = a.getInterestRate();
 		boolean isJoint = a.isJoint();
+		int pin = a.getPinNumber();
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
@@ -247,6 +248,7 @@ public class UserDAOIMPL implements UserDAO{
 			+ " balance =" +balance+","
 			+ " interest_rate ="+ interest+","
 			+ " is_joint ="+ isJoint+","
+			+ "pin_number ="+ pin +","
 			+ "FROM accounts"
 			+ "WHERE account_id ="+ id+";"; 
 					
