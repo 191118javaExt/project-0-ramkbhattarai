@@ -92,7 +92,7 @@ public class UserDAOIMPL implements UserDAO{
 		try (Connection conn = ConnectionUtil.getConnection()) {
 					
 					
-					String sql = "INSERT INTO users (fname, lname, password, account_id, is_employee, is_admin, is_looged_in) " +
+					String sql = "INSERT INTO users (fname, lname, password, account_id, is_employee, is_admin, is_logged_in) " +
 							"VALUES (?, ?, ?, ?, ?, ?, ?);";
 					
 					PreparedStatement stm = conn.prepareStatement(sql);
@@ -103,13 +103,13 @@ public class UserDAOIMPL implements UserDAO{
 					stm.setInt(4, u.getAccountId());
 					stm.setBoolean(5, u.isEmployee());
 					stm.setBoolean(6, u.isAdmin());
-					stm.setBoolean(6, u.isLoggedIn());
+					stm.setBoolean(7, u.isLoggedIn());
 					
 					if(!stm.execute()) {
 						return false;
 					}
 				} catch(SQLException e) {
-					log.warn("Unable to retrieve all users", e);
+					log.warn("Unable to add user", e);
 					return false;
 				}
 				

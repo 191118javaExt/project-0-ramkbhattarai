@@ -1,0 +1,35 @@
+2019-12-12 19:46:44 WARN  UserDAOIMPL:112 - Unable to retrieve all users
+org.postgresql.util.PSQLException: No value specified for parameter 7.
+	at org.postgresql.core.v3.SimpleParameterList.checkAllParametersSet(SimpleParameterList.java:264)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:294)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:447)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:368)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:158)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:147)
+	at com.revature.repository.UserDAOIMPL.addUser(UserDAOIMPL.java:108)
+	at com.revature.services.UserService.addUser(UserService.java:22)
+	at com.revature.Driver.main(Driver.java:19)
+2019-12-12 19:51:15 WARN  UserDAOIMPL:112 - Unable to add user
+org.postgresql.util.PSQLException: No value specified for parameter 7.
+	at org.postgresql.core.v3.SimpleParameterList.checkAllParametersSet(SimpleParameterList.java:264)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:294)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:447)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:368)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:158)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:147)
+	at com.revature.repository.UserDAOIMPL.addUser(UserDAOIMPL.java:108)
+	at com.revature.services.UserService.addUser(UserService.java:22)
+	at com.revature.Driver.main(Driver.java:19)
+2019-12-12 19:52:16 WARN  UserDAOIMPL:112 - Unable to add user
+org.postgresql.util.PSQLException: ERROR: column "is_looged_in" of relation "users" does not exist
+  Position: 79
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2505)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2241)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:447)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:368)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:158)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:147)
+	at com.revature.repository.UserDAOIMPL.addUser(UserDAOIMPL.java:108)
+	at com.revature.services.UserService.addUser(UserService.java:22)
+	at com.revature.Driver.main(Driver.java:19)
