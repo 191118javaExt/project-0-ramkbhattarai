@@ -139,12 +139,32 @@ public class Driver {
 				//showTransactions();
 				break;
 			case 5:
-				//seeDetailsAboutUsers();
+				seeDetailsAboutUsers(user);
 			default:
 				System.out.println("You entered something that is not in the options.");
 				break;
 			}
 		}
+
+		private static void seeDetailsAboutUsers(User u) {
+			System.out.println("You must be either employee of the bank or the admin of the bank to look into details about users.");
+			System.out.println("Are you admin or employee?");
+			System.out.println("Enter \"emplyee\" if you are employee and \"admin\" if you are admin.");
+			String status = scan.nextLine();
+			if(status.equalsIgnoreCase("admin") && u.isAdmin()) {
+				System.out.println(us.getAllUsers());
+				System.out.println("=====================");
+				System.out.println(as.getAllAccounts());
+			}else if(status.equalsIgnoreCase("employee") && u.isEmployee()) {
+				System.out.println(as.getAllAccounts());
+			}else {
+				System.out.println("You don't have right to see other's information");
+			}
+			
+			
+		}
+
+
 
 		private static void deposit(User u) {
 			System.out.println("How much do you want to deposit?");
