@@ -21,4 +21,6 @@ public interface AccountDAO {
 	
 	public abstract Account getAccountIdBYPinNumber(int pinNumber);
 	
+	public abstract boolean updateBalanceOfAccount(Account a, double amount);
+	
 }

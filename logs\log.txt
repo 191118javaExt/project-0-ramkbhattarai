@@ -390,3 +390,20 @@ org.postgresql.util.PSQLException: ERROR: control reached end of trigger procedu
 	at com.revature.Driver.checkUser(Driver.java:41)
 	at com.revature.Driver.start(Driver.java:27)
 	at com.revature.App.main(App.java:9)
+2019-12-13 21:10:22 WARN  UserDAOIMPL:259 - Unable to update the account balance
+org.postgresql.util.PSQLException: ERROR: syntax error at or near "="
+  Position: 31
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2505)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2241)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:447)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:368)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:158)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:147)
+	at com.revature.repository.AccountDAOIMPL.updateBalanceOfAccount(AccountDAOIMPL.java:255)
+	at com.revature.services.AccountServices.updateBalanceOfAccount(AccountServices.java:45)
+	at com.revature.Driver.deposit(Driver.java:160)
+	at com.revature.Driver.logIn(Driver.java:130)
+	at com.revature.Driver.checkUser(Driver.java:58)
+	at com.revature.Driver.start(Driver.java:27)
+	at com.revature.App.main(App.java:9)

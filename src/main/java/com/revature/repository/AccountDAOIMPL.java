@@ -65,11 +65,11 @@ public class AccountDAOIMPL implements AccountDAO {
 				
 				try (Connection con = ConnectionUtil.getConnection()) {
 						
-					String sql = "SELECT * FROM accounts WHERE account_id ="+ id+";";
+					String sql = "SELECT * FROM accounts WHERE account_id = ? ;";
 					
-					Statement stmt = con.createStatement();
-					
-					ResultSet rs = stmt.executeQuery(sql);
+					PreparedStatement stmt = con.prepareStatement(sql);
+					stmt.setInt(1, id);
+					ResultSet rs = stmt.executeQuery();
 					
 					while(rs.next()) {
 						int account_id = rs.getInt("account_id");
@@ -134,20 +134,25 @@ public class AccountDAOIMPL implements AccountDAO {
 			
 			
 			String sql = "UPDATE accounts SET"
-			+ "account_id ="+ id+","
-			+ " account_type ="+ type+","
-			+ " account_number ="+ number+","
-			+ " balance ="+ balance+","
-			+ " interest_rate ="+ interest+","
-			+ " is_joint ="+ isJoint+","
-			+ "pin_number ="+ pin+","
-			+ "FROM accounts"
-			+ "WHERE account_id ="+ id+";"; 
+			+ "account_id = ?,"
+			+ " account_type = ?,"
+			+ " account_number = ?,"
+			+ " balance = ?,"
+			+ " interest_rate = ?,"
+			+ " is_joint = ?,"
+			+ "pin_number = ?"
+			+ "WHERE account_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
-			
-			
+			stm.setInt(1, id);
+			stm.setString(2, type);
+			stm.setInt(3, number);
+			stm.setDouble(4, balance);
+			stm.setDouble(5, interest);
+			stm.setBoolean(6, isJoint);
+			stm.setInt(7, pin);
+			stm.setInt(8, id);
 			if(!stm.execute()) {
 				return false;
 			}
@@ -164,9 +169,10 @@ public class AccountDAOIMPL implements AccountDAO {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 						
 					String sql = "DELETE FROM accounts"
-					+ "WHERE account_id ="+ id+";"; 
+					+ "WHERE account_id = ? ;"; 
 					
 					PreparedStatement stm = conn.prepareStatement(sql);
+					stm.setInt(1, id);
 					
 					if(!stm.execute()) {
 						return false;
@@ -185,11 +191,12 @@ public class AccountDAOIMPL implements AccountDAO {
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 				
-			String sql = "SELECT * FROM accounts WHERE pin_number ="+ pinNumber+";";
+			String sql = "SELECT * FROM accounts WHERE pin_number = ? ;";
 			
-			Statement stmt = con.createStatement();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, pinNumber);
 			
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()) {
 				int account_id = rs.getInt("account_id");
@@ -209,6 +216,48 @@ public class AccountDAOIMPL implements AccountDAO {
 			log.warn("Unable to retrieve the account by Pin Number", e);
 		}
 		return account;
+	}
+
+	@Override
+	public boolean updateBalanceOfAccount(Account a, double amount) {
+		int id = a.getId();
+		String type = a.getAccountType();
+		int number = a.getAccountNumber();
+		double balance = a.getBalance() + amount;
+		double interest = a.getInterestRate();
+		int pin = a.getPinNumber();
+		boolean isJoint = a.isJoint();
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			
+			
+			String sql = "UPDATE accounts SET "
+			+ "account_id = ?,"
+			+ "account_type = ?,"
+			+ "account_number = ?,"
+			+ "balance = ?,"
+			+ "interest_rate = ?,"
+			+ "is_joint = ?,"
+			+ "pin_number = ?"
+			+ "WHERE account_id = ?;"; 
+					
+			
+			PreparedStatement stm = conn.prepareStatement(sql);
+			stm.setInt(1, id);
+			stm.setString(2, type);
+			stm.setInt(3, number);
+			stm.setDouble(4, balance);
+			stm.setDouble(5, interest);
+			stm.setBoolean(6, isJoint);
+			stm.setInt(7, pin);
+			stm.setInt(8, id);
+			if(!stm.execute()) {
+				return false;
+			}
+		} catch(SQLException e) {
+			log.warn("Unable to update the account balance", e);
+			return false;
+		}
+		return true;
 	}
 
 }

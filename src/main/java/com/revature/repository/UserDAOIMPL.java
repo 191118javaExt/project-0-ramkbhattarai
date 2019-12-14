@@ -74,11 +74,12 @@ public class UserDAOIMPL implements UserDAO{
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 				
-			String sql = "SELECT * FROM users WHERE user_id =" + id + ";";
+			String sql = "SELECT * FROM users WHERE user_id = ? ;";
 			
-			Statement stmt = con.createStatement();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, id);
 			
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()) {
 				int user_id = rs.getInt("user_id");
@@ -145,19 +146,25 @@ public class UserDAOIMPL implements UserDAO{
 			
 			
 			String sql = "UPDATE users SET"
-			+ "fname =" + f_name +","
-			+ " lname ="+ l_name +","
-			+ " password ="+ password1 +","
-			+ " account_id ="+ accountId +","
-			+ " is_employee ="+ isEmployee +","
-			+ " is_admin ="+ isAdmin +","
-			+ " is_looged_in ="+ isLoggedIn +","
-			+ "FROM users"
-			+ "WHERE user_id =" + id+";"; 
+			+ "fname = ?,"
+			+ " lname = ?,"
+			+ " password = ?,"
+			+ " account_id = ?,"
+			+ " is_employee = ?,"
+			+ " is_admin = ?,"
+			+ " is_looged_in = ?"
+			+ "WHERE user_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
-			
+			stm.setString(1, f_name);
+			stm.setString(2, l_name);
+			stm.setString(3, password1);
+			stm.setInt(4, accountId);
+			stm.setBoolean(5, isEmployee);
+			stm.setBoolean(6, isAdmin);
+			stm.setBoolean(7, isLoggedIn);
+			stm.setInt(8, id);
 			
 			if(!stm.execute()) {
 				return false;
@@ -177,10 +184,10 @@ public class UserDAOIMPL implements UserDAO{
 		try (Connection conn = ConnectionUtil.getConnection()) {
 						
 					String sql = "DELETE FROM users"
-					+ "WHERE user_id ="+ id+ ";"; 
+					+ "WHERE user_id = ?;"; 
 					
 					PreparedStatement stm = conn.prepareStatement(sql);
-					
+					stm.setInt(1, id);
 					if(!stm.execute()) {
 						return false;
 					}
@@ -199,11 +206,12 @@ public class UserDAOIMPL implements UserDAO{
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 			
-			String sql = "SELECT * FROM accounts WHERE account_id =" +accountId+ ";";
+			String sql = "SELECT * FROM accounts WHERE account_id = ? ;";
 			
-			Statement stmt = con.createStatement();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, accountId);
 			
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()) {
 				int account_id = rs.getInt("account_id");
@@ -242,19 +250,25 @@ public class UserDAOIMPL implements UserDAO{
 			
 			
 			String sql = "UPDATE accounts SET"
-			+ "account_id =" +id+","
-			+ " account_type ="+ type+","
-			+ " account_number ="+ number+","
-			+ " balance =" +balance+","
-			+ " interest_rate ="+ interest+","
-			+ " is_joint ="+ isJoint+","
-			+ "pin_number ="+ pin +","
-			+ "FROM accounts"
-			+ "WHERE account_id ="+ id+";"; 
+			+ "account_id = ?,"
+			+ " account_type = ?,"
+			+ " account_number = ?,"
+			+ " balance = ?,"
+			+ " interest_rate = ?,"
+			+ " is_joint = ?,"
+			+ "pin_number = ?"
+			+ "WHERE account_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
-			
+			stm.setInt(1, id);
+			stm.setString(2, type);
+			stm.setInt(3, number);
+			stm.setDouble(4, balance);
+			stm.setDouble(5, interest);
+			stm.setBoolean(6, isJoint);
+			stm.setInt(7, pin);
+			stm.setInt(8, id);
 			
 			if(!stm.execute()) {
 				return false;

@@ -40,4 +40,8 @@ public class AccountServices {
 	public  Account getAccountBYPinNumber(int pin) {
 		return accountDAO.getAccountIdBYPinNumber(pin);
 	}
+	
+	public  boolean updateBalanceOfAccount(Account a, double amount) {
+		return accountDAO.updateBalanceOfAccount(a, amount);
+	}
 }

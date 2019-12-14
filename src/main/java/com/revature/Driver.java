@@ -73,7 +73,7 @@ public class Driver {
 			
 		}
 
-		private static  User  getUserFromDB() {
+		private static  User getUserFromDB() {
 			String fname;
 			String password;
 			User u;
@@ -127,13 +127,13 @@ public class Driver {
 			
 			switch(choice) {
 			case 1:
-				//deposit();
+				deposit(user);
 				break;
 			case 2:
-				//withdraw();
+				withdraw(user);
 				break;
 			case 3: 
-				//transfer();
+				transfer(user);
 				break;
 			case 4:
 				//showTransactions();
@@ -145,6 +145,80 @@ public class Driver {
 				break;
 			}
 		}
+
+		private static void deposit(User u) {
+			System.out.println("How much do you want to deposit?");
+			String amt = scan.nextLine();
+			double amount = 0.0;
+			try {
+				amount = Double.parseDouble(amt);
+			}catch(NumberFormatException e) {
+				System.out.println("Couldn't convert the deposit amount");
+				e.printStackTrace();
+			}
+			Account a = us.getUserAccount(u);
+			as.updateBalanceOfAccount(a, amount);
+			System.out.println("Congratulation you successfully deposited $" +amount );
+		}
+
+
+
+		private static void withdraw(User u) {
+			System.out.println("How much do you want to withdraw?");
+			String amt = scan.nextLine();
+			double amount = 0.0;
+			try {
+				amount = Double.parseDouble(amt);
+			}catch(NumberFormatException e) {
+				System.out.println("Couldn't convert the withdraw amount");
+				e.printStackTrace();
+			}
+			Account a = us.getUserAccount(u);
+			if(a.getBalance() < amount) {
+				System.out.println("You can't withdraw the amount more than your balance.");
+			}else {
+				as.updateBalanceOfAccount(a, (-1*amount));
+			}
+			
+			System.out.println("Congratulation you successfully withdrew $" +amount );
+		}
+
+
+
+		private static void transfer(User u) {
+			System.out.println("How much do you want to transfer?");
+			String amt = scan.nextLine();
+			double amount = 0.0;
+			try {
+				amount = Double.parseDouble(amt);
+			}catch(NumberFormatException e) {
+				System.out.println("Couldn't convert the transfer amount");
+				e.printStackTrace();
+			}
+			
+			System.out.println("Enter the pin number of the account that you would like to transfer.");
+			String pin = scan.nextLine();
+			int pinNumber = 0;
+			try {
+				pinNumber = Integer.parseInt(pin.split(" ")[0]);
+			}catch(NumberFormatException e) {
+				System.out.println("Couldn't convert the pin number");
+				e.printStackTrace();
+			}
+			
+			Account anotherAccount = as.getAccountBYPinNumber(pinNumber);
+			Account userAccount = us.getUserAccount(u);
+			
+			if(userAccount.getBalance() < amount) {
+				System.out.println("You can't transfer the amount more than your balance.");
+			}else {
+				as.updateBalanceOfAccount(userAccount, (-1*amount));
+				as.updateBalanceOfAccount(anotherAccount, amount);
+			}
+			System.out.println("Congratulation you successfully transfered $" +amount + " to another account with account number " + anotherAccount.getAccountNumber() );
+		}
+
+
 
 		private static void printTransactionOption() {
 			System.out.println();
