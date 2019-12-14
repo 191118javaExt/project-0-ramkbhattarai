@@ -52,8 +52,10 @@ public class Driver {
 					us.addUser(u);
 					break;
 				case 2:
-					if(checkUserInDB()) {
-						logIn(u);
+					User u1 = getUserFromDB();
+					if(checkUserInDB(u1)) {
+						
+						logIn(u1);
 					}
 					check = false;
 					break;
@@ -71,10 +73,11 @@ public class Driver {
 			
 		}
 
-		private static boolean checkUserInDB() {
+		private static  User  getUserFromDB() {
 			String fname;
 			String password;
-			boolean flag = false;
+			User u;
+			
 			do {
 				System.out.println("Enter your first name: ");
 				 fname = scan.nextLine();
@@ -82,15 +85,27 @@ public class Driver {
 				System.out.println("Enter your password: ");
 				 password = scan.nextLine();
 				System.out.println("Checking user in DataBase");
-				if(us.getUserByFnameAndPassword(fname, password) != null) {
+				u = us.getUserByFnameAndPassword(fname, password);
+				
+			}while(u == null);
+			return u;
+			
+		}
+
+
+
+		private static boolean checkUserInDB(User u) {
+			
+			boolean flag = false;
+			
+				if(u != null) {
 					
 					flag = true;
 					
 				}else {
 					System.out.println("No such user exists. Please try again");
-					
+					flag = false;
 				}
-			}while(us.getUserByFnameAndPassword(fname, password) == null);
 			return flag;
 		}
 
@@ -98,7 +113,7 @@ public class Driver {
 			// now we have to give them the options to withdraw, transfer, deposit the money
 			// when they give the options then run their functionality in the run methods.
 			System.out.println();
-			System.out.println("Welcome" + user + "Happy to see you around");
+			System.out.println("Welcome " + user.getFname() + " Happy to see you around");
 			System.out.println("Choose your option: ");
 			printTransactionOption();
 			int choice = 0;
@@ -109,7 +124,7 @@ public class Driver {
 			}catch(NumberFormatException e) {
 				e.printStackTrace();
 			}
-			//scan.next();
+			
 			switch(choice) {
 			case 1:
 				//deposit();
@@ -137,7 +152,7 @@ public class Driver {
 			System.out.println("Enter 2 to widthdraw.");
 			System.out.println("Enter 3 to transfer.");
 			System.out.println("Enter 4 to seeYourTransactions.");
-			System.out.println("Enter 5 to look into details of Users");
+			System.out.println("Enter 5 to look into Users");
 			System.out.println();
 		}
 
