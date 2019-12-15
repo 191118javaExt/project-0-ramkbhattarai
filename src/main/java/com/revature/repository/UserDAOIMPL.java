@@ -145,15 +145,7 @@ public class UserDAOIMPL implements UserDAO{
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
 			
-			String sql = "UPDATE users SET"
-			+ "fname = ?,"
-			+ " lname = ?,"
-			+ " password = ?,"
-			+ " account_id = ?,"
-			+ " is_employee = ?,"
-			+ " is_admin = ?,"
-			+ " is_looged_in = ?"
-			+ "WHERE user_id = ?;"; 
+			String sql = "UPDATE public.users SET fname = ?, lname = ?, password = ?, account_id = ?, is_employee = ?, is_admin = ?, is_logged_in = ? WHERE user_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
@@ -249,26 +241,18 @@ public class UserDAOIMPL implements UserDAO{
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
 			
-			String sql = "UPDATE accounts SET"
-			+ "account_id = ?,"
-			+ " account_type = ?,"
-			+ " account_number = ?,"
-			+ " balance = ?,"
-			+ " interest_rate = ?,"
-			+ " is_joint = ?,"
-			+ "pin_number = ?"
-			+ "WHERE account_id = ?;"; 
+			String sql = "UPDATE public.accounts SET account_type = ?, account_number = ?, balance = ?, interest_rate = ?, is_joint = ?, pin_number = ? WHERE account_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
-			stm.setInt(1, id);
-			stm.setString(2, type);
-			stm.setInt(3, number);
-			stm.setDouble(4, balance);
-			stm.setDouble(5, interest);
-			stm.setBoolean(6, isJoint);
-			stm.setInt(7, pin);
-			stm.setInt(8, id);
+			
+			stm.setString(1, type);
+			stm.setInt(2, number);
+			stm.setDouble(3, balance);
+			stm.setDouble(4, interest);
+			stm.setBoolean(5, isJoint);
+			stm.setInt(6, pin);
+			stm.setInt(7, id);
 			
 			if(!stm.execute()) {
 				return false;
