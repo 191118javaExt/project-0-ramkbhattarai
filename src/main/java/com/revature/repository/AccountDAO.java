@@ -1,6 +1,7 @@
 package com.revature.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import com.revature.models.Account;
 import com.revature.models.User;
@@ -23,4 +24,5 @@ public interface AccountDAO {
 	
 	public abstract boolean updateBalanceOfAccount(Account a, double amount);
 	
+	public abstract Set<Integer> getAllPinNumbers();
 }

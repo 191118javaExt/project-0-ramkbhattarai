@@ -3,6 +3,7 @@ package com.revature;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.revature.models.Account;
 import com.revature.models.User;
@@ -116,7 +117,7 @@ public class Driver {
 					transfer(user);
 					break;
 				case 4:
-					//showTransactions();
+					showUsersAccountInfo(user);
 					break;
 				case 5:
 					seeDetailsAboutUsers(user);
@@ -127,10 +128,17 @@ public class Driver {
 			}
 		}
 
+		private static void showUsersAccountInfo(User u) {
+			Account a = us.getUserAccount(u);
+			System.out.println(a);
+		}
+
+
+
 		private static void seeDetailsAboutUsers(User u) {
 			System.out.println("You must be either employee of the bank or the admin of the bank to look into details about users.");
 			System.out.println();
-			System.out.println("Enter \"emplyee\" if you are employee or \"admin\" if you are admin.");
+			System.out.println("Enter \"employee\" if you are employee or \"admin\" if you are admin.");
 			String status = scan.nextLine();
 			if(status.equalsIgnoreCase("admin") && u.isAdmin()) {
 				List<User> userList = us.getAllUsers();
@@ -186,6 +194,7 @@ public class Driver {
 				System.out.println("Enter 4 to change Account Interest Rate.");
 				System.out.println("Enter 5 to change Account Pin Number.");
 				System.out.println("Enter 6 to change Account Joint Type.");
+				System.out.println("Enter 7 to change Account Status.");
 				
 				int choice1 = ensureIntegerInput();
 				switch(choice1) {
@@ -193,13 +202,6 @@ public class Driver {
 					System.out.println("Thank you for checking out.");
 					flag = false;
 					break;
-//				case 1:
-//					System.out.println("Please Enter the id for Account.");
-//					int id = ensureIntegerInput();
-//					a.setId(id);
-//					as.updateAccount(a);
-//					System.out.println("Account's ID is changed.");
-//					break;
 				case 1:
 					System.out.println("Please Enter the Account Type for account");
 					String accountType = scan.nextLine();
@@ -246,6 +248,21 @@ public class Driver {
 					as.updateAccount(a);
 					System.out.println("Account's Joint Status is changed.");
 					break;
+				case 7:
+					int status1;
+					do {
+						System.out.println("Please Enter 1 to cancel the account");
+						System.out.println("Please Enter 3 to approve the account");
+						status1 = ensureIntegerInput();
+						if(status1 != 1 || status1 != 3) {
+							System.out.println("Please Enter either 1 or 3 only. Please try again.");
+						}
+					}while(status1 != 1 || status1 != 3);
+					
+					
+					a.setStatus(status1);
+					as.updateAccount(a);
+					System.out.println("Account's status is changed");
 				default:
 					System.out.println("There no option for your input, Please try again.");
 					break;
@@ -278,13 +295,6 @@ public class Driver {
 					System.out.println("Thank you for checking out.");
 					flag = false;
 					break;
-//				case 1:
-//					System.out.println("Please Enter the id for user.");
-//					int id = ensureIntegerInput();
-//					u.setId(id);
-//					us.updateUser(u);
-//					System.out.println("User's ID is changed.");
-//					break;
 				case 1:
 					System.out.println("Please Enter the user First Name");
 					String fname = scan.nextLine();
@@ -306,13 +316,6 @@ public class Driver {
 					us.updateUser(user1);
 					System.out.println("User's Password is changed.");
 					break;
-//				case 5:
-//					System.out.println("Please Enter the id for Account.");
-//					int id1 = ensureIntegerInput();
-//					u.setAccountId(id1);
-//					us.updateUser(u);
-//					System.out.println("User's Account Id is changed.");
-//					break;
 				case 4:
 					System.out.println("Please Enter the user's Employee Statue T for \"True\" or F for \"False\"");
 					boolean status = false;
@@ -351,45 +354,76 @@ public class Driver {
 
 
 		private static void deposit(User u) {
-			System.out.println("How much do you want to deposit?");
-			double amount = ensureDoubleInput();
 			Account a = us.getUserAccount(u);
-			as.updateBalanceOfAccount(a, amount);
-			System.out.println("Congratulation you successfully deposited $" +amount );
+			if(a.getStatus() == 1) {
+				System.out.println("Your Account was canceled. You can't deposit. Contact Admin or Employee for more Information.");
+			}
+			else if(a.getStatus() == 2) {
+				System.out.println("Your Account is still in pending. You can't deposit. Contact Admin or Employee for more Information.");
+			}else {
+				
+				System.out.println("How much do you want to deposit?");
+				double amount = ensureDoubleInput();
+				
+				as.updateBalanceOfAccount(a, amount);
+				System.out.println("Congratulation you successfully deposited $" +amount );
+			}
 		}
 
 
 
 		private static void withdraw(User u) {
-			System.out.println("How much do you want to withdraw?");
-			double amount = ensureDoubleInput();
 			Account a = us.getUserAccount(u);
-			if(a.getBalance() < amount) {
-				System.out.println("You can't withdraw the amount more than your balance.");
-			}else {
-				as.updateBalanceOfAccount(a, (-1*amount));
+			if(a.getStatus() == 1) {
+				System.out.println("Your Account was canceled. You can't withdraw. Contact Admin or Employee for more Information.");
 			}
-			
-			System.out.println("Congratulation you successfully withdrew $" +amount );
+			else if(a.getStatus() == 2) {
+				System.out.println("Your Account is still in pending. You can't withdraw. Contact Admin or Employee for more Information.");
+			}else {
+				
+				System.out.println("How much do you want to withdraw?");
+				double amount = ensureDoubleInput();
+				
+				if(a.getBalance() < amount) {
+					System.out.println("You can't withdraw the amount more than your balance.");
+				}else {
+					as.updateBalanceOfAccount(a, (-1*amount));
+				}
+				
+				System.out.println("Congratulation you successfully withdrew $" +amount );
+			}
 		}
 
 
 
 		private static void transfer(User u) {
-			System.out.println("How much do you want to transfer?");
-			double amount = ensureDoubleInput();
-			System.out.println("Enter the pin number of the account that you would like to transfer.");
-			int pinNumber = ensureIntegerInput();
-			Account anotherAccount = as.getAccountBYPinNumber(pinNumber);
-			Account userAccount = us.getUserAccount(u);
-			
-			if(userAccount.getBalance() < amount) {
-				System.out.println("You can't transfer the amount more than your balance.");
-			}else {
-				as.updateBalanceOfAccount(userAccount, (-1*amount));
-				as.updateBalanceOfAccount(anotherAccount, amount);
+		
+			Account a = us.getUserAccount(u);
+			if(a.getStatus() == 1) {
+				System.out.println("Your Account was canceled. You can't transfer. Contact Admin or Employee for more Information.");
 			}
-			System.out.println("Congratulation you successfully transfered $" +amount + " to another account with account number " + anotherAccount.getAccountNumber() );
+			else if(a.getStatus() == 2) {
+				System.out.println("Your Account is still in pending. You can't transfer. Contact Admin or Employee for more Information.");
+			}else {
+				
+				System.out.println("How much do you want to transfer?");
+				double amount = ensureDoubleInput();
+				System.out.println("Enter the pin number of the account that you would like to transfer.");
+				int pinNumber = ensureIntegerInput();
+				Account anotherAccount = as.getAccountBYPinNumber(pinNumber);
+				
+				
+				if(a.getBalance() < amount) {
+					System.out.println("You can't transfer the amount more than your balance.");
+				}else if(anotherAccount.getStatus() < 3) {
+					System.out.println("The account you want to transfer is not yet approved. So you can't transfer.");
+				}
+				else {
+					as.updateBalanceOfAccount(a, (-1*amount));
+					as.updateBalanceOfAccount(anotherAccount, amount);
+				}
+				System.out.println("Congratulation you successfully transfered $" +amount + " to another account with account number " + anotherAccount.getAccountNumber() );
+			}
 		}
 
 
@@ -414,7 +448,7 @@ public class Driver {
 			System.out.println("Enter 1 to deposit.");
 			System.out.println("Enter 2 to widthdraw.");
 			System.out.println("Enter 3 to transfer.");
-			System.out.println("Enter 4 to seeYourTransactions.");
+			System.out.println("Enter 4 to seeYourAccountInformation.");
 			System.out.println("Enter 5 to look into Users");
 			System.out.println();
 		}
@@ -428,20 +462,36 @@ public class Driver {
 			String lname = scan.nextLine();
 			
 			String password = conformPassword();
-			System.out.println("Enter \"Yes\" if you are employee of the bank: ");
-			String employee1 = scan.nextLine();
-			
 			boolean employee = false;
-			if(employee1.equalsIgnoreCase("yes")) {
-				employee = true;
-			}
-			System.out.println("Enter \"Yes\" if you are admin of the bank: ");
-			String admin1 = scan.nextLine();
-		
+			String employee1;
+			do {
+				
+				System.out.println("Enter \"Yes\" if you are employee of the bank: ");
+				 employee1 = scan.nextLine();
+				if(employee1.equalsIgnoreCase("yes")) {
+					employee = true;
+				}
+				if(!(employee1.equalsIgnoreCase("yes") || employee1.equalsIgnoreCase("no"))) {
+					System.out.println("Only allowed values are yes and no. Please try again");
+				}
+			}while(!(employee1.equalsIgnoreCase("yes") || employee1.equalsIgnoreCase("no")));
+			
+			
+			
 			boolean admin = false;
-			if(admin1.equalsIgnoreCase("yes")) {
-				admin = true;
-			}
+			String admin1;
+			do {
+				
+				System.out.println("Enter \"Yes\" if you are admin of the bank: ");
+				 admin1 = scan.nextLine();
+				if(admin1.equalsIgnoreCase("yes")) {
+					admin = true;
+				}
+				if(!(admin1.equalsIgnoreCase("yes") || admin1.equalsIgnoreCase("no"))) {
+					System.out.println("Only allowed values are yes and no. Please try again");
+				}
+			}while(!(admin1.equalsIgnoreCase("yes") || admin1.equalsIgnoreCase("no")));
+			
 			System.out.println("Now Let's Create your account.");
 			Account account = createAccount();
 			int pin = account.getPinNumber();
@@ -453,24 +503,64 @@ public class Driver {
 
 		 private static Account createAccount() {
 			System.out.println();
-			System.out.println("Which type of account you want to create?");
-			System.out.println("Enter \"Saving\" for saving and \"Checking\" for checking");
-			String accountType = scan.nextLine();
+			String accountType;
+			do {
+				
+				System.out.println("Which type of account you want to create?");
+				System.out.println("Enter \"Saving\" for saving and \"Checking\" for checking");
+				 accountType = scan.nextLine();
+				 if(!(accountType.equalsIgnoreCase("checking") || accountType.equalsIgnoreCase("saving"))) {
+					 System.out.println("Only allowed values are checking and saving. Please try again.");
+				 }
+			}while(!(accountType.equalsIgnoreCase("checking") || accountType.equalsIgnoreCase("saving")));
 			
-			System.out.println("Enter your Pin Number");
+			int pin;
+			do {
+				
+				System.out.println("Enter your Pin Number");
+				
+				 pin = ensureIntegerInput();
+				 if(!(new Integer(pin).toString().length() <=10))
+					 System.out.println("Pin Number can only be of at most 10 digits. Please try again.");
+				 if(checkPinNumberINDB(pin)) {
+					 System.out.println("Already Taken!! Choose different Pin Number.");
+				 }
+			}while(!(new Integer(pin).toString().length() <=10) && checkPinNumberINDB(pin));
 			
-			int pin = ensureIntegerInput();
-			
-			
-			System.out.println("Will it be a joint Account?");
-			System.out.println("Enter \'Yes\' for yes and \'No\' for no ");
-			String check = scan.nextLine();
+			String check;
+			do {
+				
+				System.out.println("Will it be a joint Account?");
+				System.out.println("Enter \'Yes\' for yes and \'No\' for no ");
+				 check = scan.nextLine();
+				 if(!(check.equalsIgnoreCase("yes") || check.equalsIgnoreCase("no"))) {
+					 System.out.println("Only allowed values are yes and no. Please try again.");
+				 }
+			}while(!(check.equalsIgnoreCase("yes") || check.equalsIgnoreCase("no")));
 			
 			boolean isJoint = false;
 			if(check.equalsIgnoreCase("Yes")) {
 				isJoint = true;
 			}
-			return new Account(0, accountType,0,0,0,pin,isJoint);
+			if(accountType.equalsIgnoreCase("checking")) {
+				
+				return new Account(0, "checking",0,0,0.02,pin,isJoint,2);
+			}else {
+				return new Account(0,"saving",0,0,0.05,pin,isJoint,2);
+			}
+		}
+
+
+
+
+
+
+		private static boolean checkPinNumberINDB(int pin) {
+			Set<Integer> pinNumbers = as.getAllPinNumbers();
+			if(pinNumbers.contains(new Integer(pin))) {
+				return true;
+			}
+			return false;
 		}
 
 
@@ -490,6 +580,7 @@ public class Driver {
 		private static String checkPassword() {
 			String password1;
 			String password2;
+			int i = 0;
 			do {
 				System.out.println("Enter your password: ");
 				 password1 = scan.nextLine();
@@ -501,7 +592,10 @@ public class Driver {
 				 if(!password1.equals(password2)) {
 					 System.out.println("Password doesn't match. Please Try Again");
 				 }
-			}while(!password1.equals(password2));
+				 if(password1.length() >= 20) {
+					 System.out.println("Your Password is too long. Password must be less than 20 characters.Please try again.");
+				 }
+			}while(!password1.equals(password2) || password2.length() >=20);
 				
 			return  password1;
 		}

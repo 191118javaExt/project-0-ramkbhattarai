@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
@@ -40,7 +42,8 @@ public class AccountDAOIMPL implements AccountDAO {
 						double interestRate = rs.getDouble("interest_rate");
 						int pin = rs.getInt("pin_number");
 						boolean isJoint = rs.getBoolean("is_joint");
-					Account	account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint);
+						int status = rs.getInt("pending_status");
+					Account	account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint,status);
 						accountList.add(account);
 					}
 					
@@ -80,7 +83,8 @@ public class AccountDAOIMPL implements AccountDAO {
 						double interestRate = rs.getDouble("interest_rate");
 						int pin = rs.getInt("pin_number");
 						boolean isJoint = rs.getBoolean("is_joint");
-						account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint);
+						int status = rs.getInt("pending_status");
+						account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint, status);
 						
 					}
 					
@@ -97,8 +101,8 @@ public class AccountDAOIMPL implements AccountDAO {
 			
 			
 			String sql = "INSERT INTO accounts "
-					+ "(account_type, account_number, balance, interest_rate, is_joint,pin_number) " +
-					"VALUES (?, ?, ?, ?, ?,?);";
+					+ "(account_type, account_number, balance, interest_rate, is_joint,pin_number, pending_status) " +
+					"VALUES (?, ?, ?, ?, ?,?,?);";
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, a.getAccountType());
@@ -108,7 +112,7 @@ public class AccountDAOIMPL implements AccountDAO {
 			stm.setDouble(4, a.getInterestRate());
 			stm.setBoolean(5, a.isJoint());
 			stm.setInt(6, a.getPinNumber());
-			
+			stm.setInt(7, a.getStatus());
 			if(!stm.execute()) {
 				return false;
 			}
@@ -130,10 +134,11 @@ public class AccountDAOIMPL implements AccountDAO {
 		double interest = a.getInterestRate();
 		int pin = a.getPinNumber();
 		boolean isJoint = a.isJoint();
+		int status = a.getStatus();
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
 			
-			String sql = "UPDATE public.accounts SET account_type = ?, account_number = ?, balance = ?, interest_rate = ?, is_joint = ?, pin_number = ? WHERE account_id = ?;"; 
+			String sql = "UPDATE public.accounts SET account_type = ?, account_number = ?, balance = ?, interest_rate = ?, is_joint = ?, pin_number = ?, pending_status = ? WHERE account_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
@@ -144,7 +149,9 @@ public class AccountDAOIMPL implements AccountDAO {
 			stm.setDouble(4, interest);
 			stm.setBoolean(5, isJoint);
 			stm.setInt(6, pin);
-			stm.setInt(7, id);
+			stm.setInt(7, status);
+			stm.setInt(8, id);
+			
 			if(!stm.execute()) {
 				return false;
 			}
@@ -198,7 +205,8 @@ public class AccountDAOIMPL implements AccountDAO {
 				double interestRate = rs.getDouble("interest_rate");
 				int pin = rs.getInt("pin_number");
 				boolean isJoint = rs.getBoolean("is_joint");
-				account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint);
+				int status = rs.getInt("pending_status");
+				account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint, status);
 				
 			}
 			
@@ -218,10 +226,11 @@ public class AccountDAOIMPL implements AccountDAO {
 		double interest = a.getInterestRate();
 		int pin = a.getPinNumber();
 		boolean isJoint = a.isJoint();
+		int status = a.getStatus();
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
 			
-			String sql = "UPDATE public.accounts SET account_type = ?, account_number = ?, balance = ?, interest_rate = ?, is_joint = ?, pin_number = ? WHERE account_id = ?;"; 
+			String sql = "UPDATE public.accounts SET account_type = ?, account_number = ?, balance = ?, interest_rate = ?, is_joint = ?, pin_number = ?, pending_status = ? WHERE account_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
@@ -231,7 +240,8 @@ public class AccountDAOIMPL implements AccountDAO {
 			stm.setDouble(4, interest);
 			stm.setBoolean(5, isJoint);
 			stm.setInt(6, pin);
-			stm.setInt(7, id);
+			stm.setInt(7, status);
+			stm.setInt(8, id);
 			if(!stm.execute()) {
 				return false;
 			}
@@ -240,6 +250,17 @@ public class AccountDAOIMPL implements AccountDAO {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public Set<Integer> getAllPinNumbers() {
+		Set<Integer> pinNumbers = new TreeSet<>();
+		List<Account> accountList = getAllAccounts();
+		for(Account a : accountList) {
+			int pin = a.getPinNumber();
+			pinNumbers.add(pin);
+		}
+		return pinNumbers;
 	}
 
 }

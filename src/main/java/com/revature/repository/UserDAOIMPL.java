@@ -214,7 +214,8 @@ public class UserDAOIMPL implements UserDAO{
 				double interestRate = rs.getDouble("interest_rate");
 				int pin = rs.getInt("pin_number");
 				boolean isJoint = rs.getBoolean("is_joint");
-				account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint);
+				int status = rs.getInt("pending_status");
+				account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint, status);
 				
 			}
 			
@@ -237,11 +238,12 @@ public class UserDAOIMPL implements UserDAO{
 		double interest = a.getInterestRate();
 		boolean isJoint = a.isJoint();
 		int pin = a.getPinNumber();
+		int status = a.getStatus();
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
 			
-			String sql = "UPDATE public.accounts SET account_type = ?, account_number = ?, balance = ?, interest_rate = ?, is_joint = ?, pin_number = ? WHERE account_id = ?;"; 
+			String sql = "UPDATE public.accounts SET account_type = ?, account_number = ?, balance = ?, interest_rate = ?, is_joint = ?, pin_number = ?, pending_status = ? WHERE account_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
@@ -252,7 +254,8 @@ public class UserDAOIMPL implements UserDAO{
 			stm.setDouble(4, interest);
 			stm.setBoolean(5, isJoint);
 			stm.setInt(6, pin);
-			stm.setInt(7, id);
+			stm.setInt(7, status);
+			stm.setInt(8, id);
 			
 			if(!stm.execute()) {
 				return false;

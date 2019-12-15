@@ -10,6 +10,7 @@ public class Account {
 	private double interestRate;
 	private int pinNumber;
 	private boolean isJoint;
+	private int status;
 	
 	
 	
@@ -20,7 +21,7 @@ public class Account {
 
 
 	public Account(int id, String accountType, int accountNumber, double balance, double interestRate,
-			int pinNumber, boolean isJoint) {
+			int pinNumber, boolean isJoint, int status) {
 		super();
 		this.id = id;
 		this.accountType = accountType;
@@ -29,6 +30,7 @@ public class Account {
 		this.interestRate = interestRate;
 		this.pinNumber = pinNumber;
 		this.isJoint = isJoint;
+		this.status = status;
 	}
 
 
@@ -146,7 +148,7 @@ public class Account {
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", accountType=" + accountType + ", accountNumber=" + accountNumber + ", balance="
-				+ balance + ", interestRate=" + interestRate +", pinNumber="+pinNumber +", isJoint=" + isJoint + "]";
+				+ balance + ", interestRate=" + interestRate +", pinNumber="+pinNumber +", isJoint=" + isJoint +", status="+ status+ "]";
 	}
 
 
@@ -157,6 +159,16 @@ public class Account {
 
 	public void setPinNumber(int pinNumber) {
 		this.pinNumber = pinNumber;
+	}
+
+
+	public int getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }
