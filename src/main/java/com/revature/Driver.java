@@ -121,6 +121,7 @@ public class Driver {
 					break;
 				case 5:
 					seeDetailsAboutUsers(user);
+					break;
 				default:
 					System.out.println("You entered something that is not in the options.");
 					break;
@@ -254,15 +255,16 @@ public class Driver {
 						System.out.println("Please Enter 1 to cancel the account");
 						System.out.println("Please Enter 3 to approve the account");
 						status1 = ensureIntegerInput();
-						if(status1 != 1 || status1 != 3) {
+						if(!(status1 == 1 || status1 == 3)) {
 							System.out.println("Please Enter either 1 or 3 only. Please try again.");
 						}
-					}while(status1 != 1 || status1 != 3);
+					}while(!(status1 == 1 || status1 == 3));
 					
 					
 					a.setStatus(status1);
 					as.updateAccount(a);
 					System.out.println("Account's status is changed");
+					break;
 				default:
 					System.out.println("There no option for your input, Please try again.");
 					break;
@@ -366,7 +368,8 @@ public class Driver {
 				double amount = ensureDoubleInput();
 				
 				as.updateBalanceOfAccount(a, amount);
-				System.out.println("Congratulation you successfully deposited $" +amount );
+				Account a1 = us.getUserAccount(u);
+				System.out.println("Congratulation you successfully deposited $" +amount + " and your current balance is $" + a1.getBalance() );
 			}
 		}
 
@@ -389,8 +392,8 @@ public class Driver {
 				}else {
 					as.updateBalanceOfAccount(a, (-1*amount));
 				}
-				
-				System.out.println("Congratulation you successfully withdrew $" +amount );
+				Account a1 = us.getUserAccount(u);
+				System.out.println("Congratulation you successfully withdrew $" +amount + " and your current balance is $"+a1.getBalance() );
 			}
 		}
 
@@ -422,7 +425,9 @@ public class Driver {
 					as.updateBalanceOfAccount(a, (-1*amount));
 					as.updateBalanceOfAccount(anotherAccount, amount);
 				}
-				System.out.println("Congratulation you successfully transfered $" +amount + " to another account with account number " + anotherAccount.getAccountNumber() );
+				Account a1 = us.getUserAccount(u);
+				System.out.println("Congratulation you successfully transfered $" +amount + " to another account with account number " + anotherAccount.getAccountNumber());
+				System.out.println("And your current balance is $"+a1.getBalance());
 			}
 		}
 
@@ -497,7 +502,7 @@ public class Driver {
 			int pin = account.getPinNumber();
 			as.addAccount(account);
 			Account acc = as.getAccountBYPinNumber(pin);
-			return new User(0, fname, lname,  password,acc.getId(), employee, false, false);
+			return new User(0, fname, lname,  password,acc.getId(), employee, admin, false);
 		}
 
 
