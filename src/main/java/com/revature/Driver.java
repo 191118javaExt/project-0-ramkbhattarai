@@ -366,10 +366,15 @@ public class Driver {
 				
 				System.out.println("How much do you want to deposit?");
 				double amount = ensureDoubleInput();
+				if(amount <= 0) {
+					System.out.println("You can't deposit negative amount or Zero amount.");
+				}else {
+					
+					as.updateBalanceOfAccount(a, amount);
+					Account a1 = us.getUserAccount(u);
+					System.out.println("Congratulation you successfully deposited $" +amount + " and your current balance is $" + a1.getBalance() );
+				}
 				
-				as.updateBalanceOfAccount(a, amount);
-				Account a1 = us.getUserAccount(u);
-				System.out.println("Congratulation you successfully deposited $" +amount + " and your current balance is $" + a1.getBalance() );
 			}
 		}
 
@@ -411,23 +416,28 @@ public class Driver {
 				
 				System.out.println("How much do you want to transfer?");
 				double amount = ensureDoubleInput();
-				System.out.println("Enter the pin number of the account that you would like to transfer.");
-				int pinNumber = ensureIntegerInput();
-				Account anotherAccount = as.getAccountBYPinNumber(pinNumber);
-				
-				
-				if(a.getBalance() < amount) {
-					System.out.println("You can't transfer the amount more than your balance.");
-				}else if(anotherAccount.getStatus() < 3) {
-					System.out.println("The account you want to transfer is not yet approved. So you can't transfer.");
+				if(amount <= 0) {
+					System.out.println("You can't transfer negative or Zero amount to transfer");
+				}else {
+					
+					System.out.println("Enter the pin number of the account that you would like to transfer.");
+					int pinNumber = ensureIntegerInput();
+					Account anotherAccount = as.getAccountBYPinNumber(pinNumber);
+					
+					
+					if(a.getBalance() < amount) {
+						System.out.println("You can't transfer the amount more than your balance.");
+					}else if(anotherAccount.getStatus() < 3) {
+						System.out.println("The account you want to transfer is not yet approved. So you can't transfer.");
+					}
+					else {
+						as.updateBalanceOfAccount(a, (-1*amount));
+						as.updateBalanceOfAccount(anotherAccount, amount);
+					}
+					Account a1 = us.getUserAccount(u);
+					System.out.println("Congratulation you successfully transfered $" +amount + " to another account with account number " + anotherAccount.getAccountNumber());
+					System.out.println("And your current balance is $"+a1.getBalance());
 				}
-				else {
-					as.updateBalanceOfAccount(a, (-1*amount));
-					as.updateBalanceOfAccount(anotherAccount, amount);
-				}
-				Account a1 = us.getUserAccount(u);
-				System.out.println("Congratulation you successfully transfered $" +amount + " to another account with account number " + anotherAccount.getAccountNumber());
-				System.out.println("And your current balance is $"+a1.getBalance());
 			}
 		}
 
