@@ -120,6 +120,9 @@ public class Driver {
 					showUsersAccountInfo(user);
 					break;
 				case 5:
+					modifyDetailsAboutUsers(user);
+					break;
+				case 6:
 					seeDetailsAboutUsers(user);
 					break;
 				default:
@@ -129,6 +132,34 @@ public class Driver {
 			}
 		}
 
+		private static void seeDetailsAboutUsers(User user) {
+			
+			System.out.println("You must be either employee of the bank or the admin of the bank to look into details about users.");
+			System.out.println();
+			System.out.println("Enter \"employee\" if you are employee or \"admin\" if you are admin.");
+			String status = scan.nextLine();
+			if(status.equalsIgnoreCase("admin") || status.equalsIgnoreCase("employee")) {
+				List<User> userList = us.getAllUsers();
+				System.out.println("Here is the list of all the Users");
+				System.out.println("========================================================");
+				for(User u4 : userList) {
+					System.out.println(u4);
+				}
+				System.out.println("========================================================");
+				System.out.println();
+				System.out.println();
+				System.out.println("Here's the list of all the Accounts");
+				System.out.println("========================================================");
+				List<Account> accountList = as.getAllAccounts();
+				for(Account a : accountList) {
+					System.out.println(a);
+				}
+				System.out.println("=========================================================");
+			}
+		}
+
+
+
 		private static void showUsersAccountInfo(User u) {
 			Account a = us.getUserAccount(u);
 			System.out.println(a);
@@ -136,7 +167,7 @@ public class Driver {
 
 
 
-		private static void seeDetailsAboutUsers(User u) {
+		private static void modifyDetailsAboutUsers(User u) {
 			System.out.println("You must be either employee of the bank or the admin of the bank to look into details about users.");
 			System.out.println();
 			System.out.println("Enter \"employee\" if you are employee or \"admin\" if you are admin.");
@@ -464,7 +495,8 @@ public class Driver {
 			System.out.println("Enter 2 to widthdraw.");
 			System.out.println("Enter 3 to transfer.");
 			System.out.println("Enter 4 to seeYourAccountInformation.");
-			System.out.println("Enter 5 to look into Users");
+			System.out.println("Enter 5 to Modify User Info and Their Account Info");
+			System.out.println("Enter 6 to Look into User Info and Their Account Info");
 			System.out.println();
 		}
 
