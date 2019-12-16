@@ -67,7 +67,6 @@ public class Driver {
 			do {
 				System.out.println("Enter your first name: ");
 				 fname = scan.nextLine();
-				//scan.nextLine();
 				System.out.println("Enter your password: ");
 				 password = scan.nextLine();
 				System.out.println("Checking user in DataBase");

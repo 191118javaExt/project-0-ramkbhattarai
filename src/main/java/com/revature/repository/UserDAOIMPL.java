@@ -113,7 +113,6 @@ public class UserDAOIMPL implements UserDAO{
 					stm.setString(1, u.getFname());
 					stm.setString(2, u.getLname());
 					stm.setString(3, u.getPassword());
-					
 					stm.setInt(4, u.getAccountId());
 					stm.setBoolean(5, u.isEmployee());
 					stm.setBoolean(6, u.isAdmin());
