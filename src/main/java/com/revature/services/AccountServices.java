@@ -11,7 +11,7 @@ import com.revature.repository.AccountDAOIMPL;
 public class AccountServices {
 	
 	AccountDAO accountDAO = new AccountDAOIMPL(); 
-		
+	InputServices is = new InputServices();	
 	
 	
 	public  List<Account> getAllAccounts(){
@@ -48,4 +48,39 @@ public class AccountServices {
 	public Set<Integer> getAllPinNumbers(){
 		return accountDAO.getAllPinNumbers();
 	}
+	
+	//========================================================
+
+	public void createAccountWithUser(User user) {
+		String accounttype = is.getStringInput("Account Type");
+		 int pin = is.ensureIntegerInput("Pin Number");
+		 boolean isJoint = is.getBooleanInput("Creating Joint Account");
+		Account a = createAccount(accounttype,pin ,isJoint , user.getId());
+		boolean makeSureAccountIsSaved = addAccount(a);
+		if(!makeSureAccountIsSaved) {
+			System.out.println("You successfully created account. CONGRATULATIONS!!!");
+		}else {
+			System.out.println("Coun't create an account. Please try again.");
+		}
+		
+	}
+	
+	
+	public  Account createAccount(String accountType, int pin, boolean isJoint, int userId) {
+		System.out.println();
+		Account a = null;
+		if(accountType.equalsIgnoreCase("checking")) {
+			
+			a = new Account(0, "checking", 0, 0, 0.02, pin, isJoint, 2, userId);
+		}else if(accountType.equalsIgnoreCase("saving")) {
+			a = new Account(0, "saving", 0, 0, 0.05, pin, isJoint, 2, userId);
+		}else {
+		System.out.println("You can only enter Saving or Checking");
+		}
+		return a;
+	}
+
+	
+	
+	
 }

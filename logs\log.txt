@@ -720,3 +720,11 @@ org.postgresql.util.PSQLException: Can't use query methods that take a query str
 	at com.revature.Driver.checkUser(Driver.java:68)
 	at com.revature.Driver.start(Driver.java:23)
 	at com.revature.App.main(App.java:9)
+2019-12-17 13:19:25 INFO  App:11 - Begin the Application
+2019-12-17 13:21:50 INFO  App:11 - Begin the Application
+2019-12-17 13:24:12 INFO  App:11 - Begin the Application
+2019-12-17 13:27:17 INFO  App:11 - Begin the Application
+2019-12-17 13:28:45 INFO  App:11 - Begin the Application
+2019-12-17 13:32:27 INFO  App:11 - Begin the Application
+2019-12-17 13:32:47 INFO  Driver:58 - User hhh hhhsaved in database
+2019-12-17 13:33:00 INFO  Driver:76 - Account with account number = 0 was saved
