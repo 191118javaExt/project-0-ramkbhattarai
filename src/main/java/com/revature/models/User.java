@@ -8,13 +8,18 @@ public class User {
 	private String fname;
 	private String lname;
 	private String password;
-	
-	private int accountId;
-	
 	private boolean isEmployee;
 	private boolean isAdmin;
 	
-	private boolean isLoggedIn;
+	public User(int id, String fname, String lname, String password, boolean isEmployee, boolean isAdmin) {
+		super();
+		this.id = id;
+		this.fname = fname;
+		this.lname = lname;
+		this.password = password;
+		this.isEmployee = isEmployee;
+		this.isAdmin = isAdmin;
+	}
 
 	public int getId() {
 		return id;
@@ -48,61 +53,30 @@ public class User {
 		this.password = password;
 	}
 
-	public int getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
-	}
-
 	public boolean isEmployee() {
 		return isEmployee;
 	}
 
-	public void setEmployee(boolean employee) {
-		this.isEmployee = employee;
+	public void setEmployee(boolean isEmployee) {
+		this.isEmployee = isEmployee;
 	}
 
 	public boolean isAdmin() {
 		return isAdmin;
 	}
 
-	public void setAdmin(boolean admin) {
-		this.isAdmin = admin;
-	}
-
-	public boolean isLoggedIn() {
-		return isLoggedIn;
-	}
-
-	public void setLoggedIn(boolean isLoggedIn) {
-		this.isLoggedIn = isLoggedIn;
-	}
-
-	public User(int id, String fname, String lname, String password, int accountId, boolean employee, boolean admin,
-			boolean isLoggedIn) {
-		super();
-		this.id = id;
-		this.fname = fname;
-		this.lname = lname;
-		this.password = password;
-		this.accountId = accountId;
-		this.isEmployee = employee;
-		this.isAdmin = admin;
-		this.isLoggedIn = isLoggedIn;
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + accountId;
-		result = prime * result + (isAdmin ? 1231 : 1237);
-		result = prime * result + (isEmployee ? 1231 : 1237);
 		result = prime * result + ((fname == null) ? 0 : fname.hashCode());
 		result = prime * result + id;
-		result = prime * result + (isLoggedIn ? 1231 : 1237);
+		result = prime * result + (isAdmin ? 1231 : 1237);
+		result = prime * result + (isEmployee ? 1231 : 1237);
 		result = prime * result + ((lname == null) ? 0 : lname.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
@@ -117,12 +91,6 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (accountId != other.accountId)
-			return false;
-		if (isAdmin != other.isAdmin)
-			return false;
-		if (isEmployee != other.isEmployee)
-			return false;
 		if (fname == null) {
 			if (other.fname != null)
 				return false;
@@ -130,7 +98,9 @@ public class User {
 			return false;
 		if (id != other.id)
 			return false;
-		if (isLoggedIn != other.isLoggedIn)
+		if (isAdmin != other.isAdmin)
+			return false;
+		if (isEmployee != other.isEmployee)
 			return false;
 		if (lname == null) {
 			if (other.lname != null)
@@ -147,12 +117,11 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", fname=" + fname + ", lname=" + lname + ", password=" + password + ", accountId="
-				+ accountId + ", employee=" + isEmployee + ", admin=" + isAdmin + ", isLoggedIn=" + isLoggedIn + "]";
+		return "User [id=" + id + ", fname=" + fname + ", lname=" + lname + ", password=" + password + ", isEmployee="
+				+ isEmployee + ", isAdmin=" + isAdmin + "]";
 	}
+	
+	
 
 	
-	
-	
-
 }

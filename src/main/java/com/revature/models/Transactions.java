@@ -2,75 +2,54 @@ package com.revature.models;
 
 public class Transactions {
 	private int id;
-	private String userName;
-	private int accountNumber;
+	private String type;
+	private int accountid;
 	private double oldBalance;
 	private double newBalance;
-	
-	public Transactions(int id, String userName, int accountNumber, double oldBalance, double newBalance) {
-		super();
-		this.id = id;
-		this.userName = userName;
-		this.accountNumber = accountNumber;
-		this.oldBalance = oldBalance;
-		this.newBalance = newBalance;
-	}
-
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getUserName() {
-		return userName;
+	public String getType() {
+		return type;
 	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setType(String type) {
+		this.type = type;
 	}
-
-	public int getAccountNumber() {
-		return accountNumber;
+	public int getAccountid() {
+		return accountid;
 	}
-
-	public void setAccountNumber(int accountNumber) {
-		this.accountNumber = accountNumber;
+	public void setAccountid(int accountid) {
+		this.accountid = accountid;
 	}
-
 	public double getOldBalance() {
 		return oldBalance;
 	}
-
 	public void setOldBalance(double oldBalance) {
 		this.oldBalance = oldBalance;
 	}
-
 	public double getNewBalance() {
 		return newBalance;
 	}
-
 	public void setNewBalance(double newBalance) {
 		this.newBalance = newBalance;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + accountNumber;
+		result = prime * result + accountid;
 		result = prime * result + id;
 		long temp;
 		temp = Double.doubleToLongBits(newBalance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(oldBalance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -80,7 +59,7 @@ public class Transactions {
 		if (getClass() != obj.getClass())
 			return false;
 		Transactions other = (Transactions) obj;
-		if (accountNumber != other.accountNumber)
+		if (accountid != other.accountid)
 			return false;
 		if (id != other.id)
 			return false;
@@ -88,19 +67,27 @@ public class Transactions {
 			return false;
 		if (Double.doubleToLongBits(oldBalance) != Double.doubleToLongBits(other.oldBalance))
 			return false;
-		if (userName == null) {
-			if (other.userName != null)
+		if (type == null) {
+			if (other.type != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!type.equals(other.type))
 			return false;
 		return true;
 	}
-
 	@Override
 	public String toString() {
-		return "Transactions [id=" + id + ", userName=" + userName + ", accountNumber=" + accountNumber
-				+ ", oldBalance=" + oldBalance + ", newBalance=" + newBalance + "]";
+		return "Transactions [id=" + id + ", type=" + type + ", accountid=" + accountid + ", oldBalance=" + oldBalance
+				+ ", newBalance=" + newBalance + "]";
 	}
+	public Transactions(int id, String type, int accountid, double oldBalance, double newBalance) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.accountid = accountid;
+		this.oldBalance = oldBalance;
+		this.newBalance = newBalance;
+	}
+	
 	
 	
 }

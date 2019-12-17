@@ -12,7 +12,7 @@ import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
-import com.revature.models.Account;
+
 import com.revature.models.User;
 import com.revature.utils.ConnectionUtil;
 
@@ -38,11 +38,9 @@ public class UserDAOIMPL implements UserDAO{
 				String fname = rs.getString("fname");
 				String lname = rs.getString("lname");
 				String password = rs.getString("password");
-				int account_id = rs.getInt("account_id");
 				boolean isEmployee = rs.getBoolean("is_employee");
 				boolean isAdmin = rs.getBoolean("is_admin");
-				boolean isLoggedIn = rs.getBoolean("is_logged_in");
-				User u = new User(id, fname, lname, password, account_id, isEmployee,isAdmin,isLoggedIn);
+				User u = new User(id, fname, lname, password, isEmployee,isAdmin);
 				
 				userList.add(u);
 			}
@@ -86,11 +84,9 @@ public class UserDAOIMPL implements UserDAO{
 				String fname = rs.getString("fname");
 				String lname = rs.getString("lname");
 				String password = rs.getString("password");
-				int account_id = rs.getInt("account_id");
 				boolean isEmployee = rs.getBoolean("is_employee");
 				boolean isAdmin = rs.getBoolean("is_admin");
-				boolean isLoggedIn = rs.getBoolean("is_logged_in");
-				user = new User(user_id, fname, lname, password, account_id, isEmployee,isAdmin,isLoggedIn);
+				user = new User(user_id, fname, lname, password, isEmployee,isAdmin);
 				
 			}
 			
@@ -106,18 +102,15 @@ public class UserDAOIMPL implements UserDAO{
 		try (Connection conn = ConnectionUtil.getConnection()) {
 					
 					
-					String sql = "INSERT INTO users (fname, lname, password, account_id, is_employee, is_admin, is_logged_in) " +
-							"VALUES (?, ?, ?, ?, ?, ?, ?);";
+					String sql = "INSERT INTO users (fname, lname, password, is_employee, is_admin) " +
+							"VALUES (?, ?, ?, ?, ?);";
 					
 					PreparedStatement stm = conn.prepareStatement(sql);
 					stm.setString(1, u.getFname());
 					stm.setString(2, u.getLname());
 					stm.setString(3, u.getPassword());
-					stm.setInt(4, u.getAccountId());
-					stm.setBoolean(5, u.isEmployee());
-					stm.setBoolean(6, u.isAdmin());
-					stm.setBoolean(7, u.isLoggedIn());
-					
+					stm.setBoolean(4, u.isEmployee());
+					stm.setBoolean(5, u.isAdmin());
 					if(!stm.execute()) {
 						return false;
 					}
@@ -136,26 +129,26 @@ public class UserDAOIMPL implements UserDAO{
 		String l_name =  u.getLname();
 		String password1 =  u.getPassword();
 		
-		int accountId =  u.getAccountId();
+		
 		boolean isEmployee =  u.isEmployee();
 		boolean isAdmin =  u.isAdmin();
-		boolean isLoggedIn =  u.isLoggedIn();
+		
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
 			
-			String sql = "UPDATE public.users SET fname = ?, lname = ?, password = ?, account_id = ?, is_employee = ?, is_admin = ?, is_logged_in = ? WHERE user_id = ?;"; 
+			String sql = "UPDATE public.users SET fname = ?, lname = ?, password = ?, is_employee = ?, is_admin = ? WHERE user_id = ?;"; 
 					
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, f_name);
 			stm.setString(2, l_name);
 			stm.setString(3, password1);
-			stm.setInt(4, accountId);
-			stm.setBoolean(5, isEmployee);
-			stm.setBoolean(6, isAdmin);
-			stm.setBoolean(7, isLoggedIn);
-			stm.setInt(8, id);
+			
+			stm.setBoolean(4, isEmployee);
+			stm.setBoolean(5, isAdmin);
+			
+			stm.setInt(6, id);
 			
 			if(!stm.execute()) {
 				return false;
@@ -190,82 +183,6 @@ public class UserDAOIMPL implements UserDAO{
 				return true;	
 	}
 
-	@Override
-	public Account getUserAccount(User u) {
-		Account account = null;
-		int accountId = u.getAccountId();
-		
-		try (Connection con = ConnectionUtil.getConnection()) {
-			
-			String sql = "SELECT * FROM accounts WHERE account_id = ? ;";
-			
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, accountId);
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			while(rs.next()) {
-				int account_id = rs.getInt("account_id");
-				String accountType = rs.getString("account_type");
-			
-				int accountNumber = rs.getInt("account_number");
-				double balance = rs.getDouble("balance");
-				double interestRate = rs.getDouble("interest_rate");
-				int pin = rs.getInt("pin_number");
-				boolean isJoint = rs.getBoolean("is_joint");
-				int status = rs.getInt("pending_status");
-				account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint, status);
-				
-			}
-			
-			rs.close();
-		} catch(SQLException e) {
-			log.warn("Unable to retrieve user's account", e);
-		}
-		
-		return account;
-	}
-
-	@Override
-	public boolean updateUserAccount(User u) {
-		Account a = getUserAccount(u);
-		
-		int id = a.getId();
-		String type = a.getAccountType();
-		int number = a.getAccountNumber();
-		double balance = a.getBalance();
-		double interest = a.getInterestRate();
-		boolean isJoint = a.isJoint();
-		int pin = a.getPinNumber();
-		int status = a.getStatus();
-		
-		try (Connection conn = ConnectionUtil.getConnection()) {
-			
-			
-			String sql = "UPDATE public.accounts SET account_type = ?, account_number = ?, balance = ?, interest_rate = ?, is_joint = ?, pin_number = ?, pending_status = ? WHERE account_id = ?;"; 
-					
-			
-			PreparedStatement stm = conn.prepareStatement(sql);
-			
-			stm.setString(1, type);
-			stm.setInt(2, number);
-			stm.setDouble(3, balance);
-			stm.setDouble(4, interest);
-			stm.setBoolean(5, isJoint);
-			stm.setInt(6, pin);
-			stm.setInt(7, status);
-			stm.setInt(8, id);
-			
-			if(!stm.execute()) {
-				return false;
-			}
-		} catch(SQLException e) {
-			log.warn("Unable to update the user's account", e);
-			return false;
-		}
-		return true;
-		
-	}
 
 	@Override
 	public User getUserByFnameAndPassword(String name,String pass) {
@@ -287,11 +204,11 @@ public class UserDAOIMPL implements UserDAO{
 				String fname = rs.getString("fname");
 				String lname = rs.getString("lname");
 				String password = rs.getString("password");
-				int account_id = rs.getInt("account_id");
+				
 				boolean isEmployee = rs.getBoolean("is_employee");
 				boolean isAdmin = rs.getBoolean("is_admin");
-				boolean isLoggedIn = rs.getBoolean("is_logged_in");
-				user = new User(user_id, fname, lname, password, account_id, isEmployee,isAdmin,isLoggedIn);
+				
+				user = new User(user_id, fname, lname, password, isEmployee,isAdmin);
 				
 			}
 			
@@ -299,7 +216,7 @@ public class UserDAOIMPL implements UserDAO{
 		} catch(SQLException e) {
 			log.warn("Unable to retrieve the user by using first name and password", e);
 		}
-		//System.out.println(user);
+		
 		return user;
 	}
 

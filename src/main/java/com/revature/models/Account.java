@@ -11,17 +11,9 @@ public class Account {
 	private int pinNumber;
 	private boolean isJoint;
 	private int status;
-	
-	
-	
-	public Account() {
-		super();
-		
-	}
-
-
-	public Account(int id, String accountType, int accountNumber, double balance, double interestRate,
-			int pinNumber, boolean isJoint, int status) {
+	private int user_id;
+	public Account(int id, String accountType, int accountNumber, double balance, double interestRate, int pinNumber,
+			boolean isJoint, int status, int user_id) {
 		super();
 		this.id = id;
 		this.accountType = accountType;
@@ -31,72 +23,62 @@ public class Account {
 		this.pinNumber = pinNumber;
 		this.isJoint = isJoint;
 		this.status = status;
+		this.user_id = user_id;
 	}
-
-
-
 	public int getId() {
 		return id;
 	}
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 	public String getAccountType() {
 		return accountType;
 	}
-
-
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
-
-
 	public int getAccountNumber() {
 		return accountNumber;
 	}
-
-
 	public void setAccountNumber(int accountNumber) {
 		this.accountNumber = accountNumber;
 	}
-
-
 	public double getBalance() {
 		return balance;
 	}
-
-
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-
-
 	public double getInterestRate() {
 		return interestRate;
 	}
-
-
 	public void setInterestRate(double interestRate) {
 		this.interestRate = interestRate;
 	}
-
-
+	public int getPinNumber() {
+		return pinNumber;
+	}
+	public void setPinNumber(int pinNumber) {
+		this.pinNumber = pinNumber;
+	}
 	public boolean isJoint() {
 		return isJoint;
 	}
-
-
 	public void setJoint(boolean isJoint) {
 		this.isJoint = isJoint;
 	}
-
-
-	
-	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public int getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -111,10 +93,10 @@ public class Account {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + (isJoint ? 1231 : 1237);
 		result = prime * result + pinNumber;
+		result = prime * result + status;
+		result = prime * result + user_id;
 		return result;
 	}
-
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -141,34 +123,21 @@ public class Account {
 			return false;
 		if (pinNumber != other.pinNumber)
 			return false;
+		if (status != other.status)
+			return false;
+		if (user_id != other.user_id)
+			return false;
 		return true;
 	}
-
-
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", accountType=" + accountType + ", accountNumber=" + accountNumber + ", balance="
-				+ balance + ", interestRate=" + interestRate +", pinNumber="+pinNumber +", isJoint=" + isJoint +", status="+ status+ "]";
+				+ balance + ", interestRate=" + interestRate + ", pinNumber=" + pinNumber + ", isJoint=" + isJoint
+				+ ", status=" + status + ", user_id=" + user_id + "]";
 	}
-
-
-	public int getPinNumber() {
-		return pinNumber;
-	}
-
-
-	public void setPinNumber(int pinNumber) {
-		this.pinNumber = pinNumber;
-	}
-
-
-	public int getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
+	
+	
+	
+	
 
 }

@@ -43,7 +43,8 @@ public class AccountDAOIMPL implements AccountDAO {
 						int pin = rs.getInt("pin_number");
 						boolean isJoint = rs.getBoolean("is_joint");
 						int status = rs.getInt("pending_status");
-					Account	account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint,status);
+						int userId = rs.getInt("user_id");
+					Account	account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint,status,userId);
 						accountList.add(account);
 					}
 					
@@ -58,8 +59,40 @@ public class AccountDAOIMPL implements AccountDAO {
 
 	@Override
 	public List<Account> getAllAccountsOfUser(User u) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Account> accountList = new ArrayList<>();
+		
+		
+		try (Connection con = ConnectionUtil.getConnection()) {
+				
+			String sql = "SELECT * FROM accounts where user_id = ?;";
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, u.getId());
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				int account_id = rs.getInt("account_id");
+				String accountType = rs.getString("account_type");
+			
+				int accountNumber = rs.getInt("account_number");
+				double balance = rs.getDouble("balance");
+				double interestRate = rs.getDouble("interest_rate");
+				int pin = rs.getInt("pin_number");
+				boolean isJoint = rs.getBoolean("is_joint");
+				int status = rs.getInt("pending_status");
+				int userId = rs.getInt("user_id");
+			Account	account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint,status,userId);
+				accountList.add(account);
+			}
+			
+			rs.close();
+		} catch(SQLException e) {
+			log.warn("Unable to retrieve all accounts of a user", e);
+		}
+
+		
+		return accountList;
 	}
 
 	@Override
@@ -84,7 +117,8 @@ public class AccountDAOIMPL implements AccountDAO {
 						int pin = rs.getInt("pin_number");
 						boolean isJoint = rs.getBoolean("is_joint");
 						int status = rs.getInt("pending_status");
-						account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint, status);
+						int userid = rs.getInt("user_id");
+						account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint, status, userid);
 						
 					}
 					
@@ -101,8 +135,8 @@ public class AccountDAOIMPL implements AccountDAO {
 			
 			
 			String sql = "INSERT INTO accounts "
-					+ "(account_type, account_number, balance, interest_rate, is_joint,pin_number, pending_status) " +
-					"VALUES (?, ?, ?, ?, ?,?,?);";
+					+ "(account_type, account_number, balance, interest_rate, is_joint,pin_number, pending_status,user_id) " +
+					"VALUES (?, ?, ?, ?, ?,?,?,?);";
 			
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, a.getAccountType());
@@ -113,6 +147,7 @@ public class AccountDAOIMPL implements AccountDAO {
 			stm.setBoolean(5, a.isJoint());
 			stm.setInt(6, a.getPinNumber());
 			stm.setInt(7, a.getStatus());
+			stm.setInt(8, a.getUser_id());
 			if(!stm.execute()) {
 				return false;
 			}
@@ -184,15 +219,15 @@ public class AccountDAOIMPL implements AccountDAO {
 	}
 
 	@Override
-	public Account getAccountIdBYPinNumber(int pinNumber) {
+	public Account getAccountBYAccountNumber(int accountNumber) {
 		Account account = null;
 		
 		try (Connection con = ConnectionUtil.getConnection()) {
 				
-			String sql = "SELECT * FROM public.accounts WHERE pin_number = ?;";
+			String sql = "SELECT * FROM public.accounts WHERE account_number = ?;";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, pinNumber);
+			stmt.setInt(1, accountNumber);
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -200,13 +235,14 @@ public class AccountDAOIMPL implements AccountDAO {
 				int account_id = rs.getInt("account_id");
 				String accountType = rs.getString("account_type");
 			
-				int accountNumber = rs.getInt("account_number");
+				int account_Number = rs.getInt("account_number");
 				double balance = rs.getDouble("balance");
 				double interestRate = rs.getDouble("interest_rate");
 				int pin = rs.getInt("pin_number");
 				boolean isJoint = rs.getBoolean("is_joint");
 				int status = rs.getInt("pending_status");
-				account = new Account(account_id, accountType, accountNumber, balance, interestRate,pin, isJoint, status);
+				int userid = rs.getInt("user_id");
+				account = new Account(account_id, accountType, account_Number, balance, interestRate,pin, isJoint, status, userid);
 				
 			}
 			

@@ -2,8 +2,9 @@ package com.revature.repository;
 
 import java.util.List;
 
+import com.revature.models.Account;
 import com.revature.models.Transactions;
-import com.revature.models.User;
+
 
 public class TransactionsDAOIMPL implements TransactionsDAO{
 
@@ -13,14 +14,15 @@ public class TransactionsDAOIMPL implements TransactionsDAO{
 		return null;
 	}
 
+
 	@Override
-	public List<Transactions> getAllTransactionOfUser(User u) {
+	public Transactions getTransactionsById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Transactions getTransactionsById(int id) {
+	public List<Transactions> getAllTransactionOfAccount(Account a) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -20,7 +20,7 @@ public interface AccountDAO {
 	
 	public abstract boolean deleteAccount(Account a);
 	
-	public abstract Account getAccountIdBYPinNumber(int pinNumber);
+	public abstract Account getAccountBYAccountNumber(int accountNumber);
 	
 	public abstract boolean updateBalanceOfAccount(Account a, double amount);
 	
