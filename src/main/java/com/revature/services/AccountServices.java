@@ -51,7 +51,7 @@ public class AccountServices {
 	
 	//========================================================
 
-	public void createAccountWithUser(User user) {
+	public Account createAccountWithUser(User user) {
 		String accounttype = is.getStringInput("Account Type");
 		 int pin = is.ensureIntegerInput("Pin Number");
 		 boolean isJoint = is.getBooleanInput("Creating Joint Account");
@@ -62,7 +62,7 @@ public class AccountServices {
 		}else {
 			System.out.println("Coun't create an account. Please try again.");
 		}
-		
+		return a;
 	}
 	
 	
