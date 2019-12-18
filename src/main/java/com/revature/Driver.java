@@ -80,18 +80,21 @@ public class Driver {
 					}
 					break;
 				case 2:
-					String firstName = is.getStringInput("First Name");
-					String password1 = is.getStringInput("Password");
-					User u2 = us.getUserFromDB(firstName,password1 );
-					if(u2 == null) {
-						System.out.println("First Name and Password doesn't match. Please try again");
-					}else {
-						
-						if(us.checkUserInDB(u2)) {
+					User u2;
+					do {
+						String firstName = is.getStringInput("First Name");
+						String password1 = is.getStringInput("Password");
+						 u2 = us.getUserFromDB(firstName,password1 );
+						if(u2 == null) {
+							System.out.println("First Name and Password doesn't match. Please try again");
+						}else {
 							
-							logIn(u2);
+							if(us.checkUserInDB(u2)) {
+								
+								logIn(u2);
+							}
 						}
-					}
+					}while(u2 == null);
 					check = false;
 					break;
 				case 3:

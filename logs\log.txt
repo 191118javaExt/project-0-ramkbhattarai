@@ -853,3 +853,7 @@ org.postgresql.util.PSQLException: ERROR: insert or update on table "accounts" v
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:763)
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:463)
 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:209)
+2019-12-18 10:36:31 INFO  App:11 - Begin the Application
+2019-12-18 10:37:30 INFO  Driver:58 - User sundar kashisaved in database
+2019-12-18 10:38:00 INFO  Driver:76 - Account with account number = 0 was saved
+2019-12-18 10:42:30 INFO  App:11 - Begin the Application
